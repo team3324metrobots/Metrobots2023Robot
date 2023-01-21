@@ -7,8 +7,19 @@ package frc.robot.arm;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
+  // Define arm motor controllers
+  private final CANSparkMax lMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_L, MotorType.kBrushless);
+  private final CANSparkMax rMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_R, MotorType.kBrushless);
+  private final CANSparkMax teleMotor = new CANSparkMax(Constants.Arm.TELESCOPE_MOTOR, MotorType.kBrushless);
+
   /** Creates a new Arm. */
-  public Arm() {}
+  public Arm() {
+    rMotor.follow(lMotor, true);
+  }
+
+  public void setArmSpeed(double speed) {
+    lMotor.set(speed);
+  }
 
   @Override
   public void periodic() {
