@@ -4,10 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.arm.Arm;
+import frc.robot.arm.commands.ControlArm;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -22,8 +23,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // --- INITIALIZE DRIVER CONTROLLERS ---
-  public final CommandXboxController primaryDriver = new CommandXboxController(0);
-  public final CommandXboxController secondaryDriver = new CommandXboxController(1);
+  public final static CommandXboxController primaryDriver = new CommandXboxController(0);
+  public final static CommandXboxController secondaryDriver = new CommandXboxController(1);
 
   // --- PNEUMATICS ---
   private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);

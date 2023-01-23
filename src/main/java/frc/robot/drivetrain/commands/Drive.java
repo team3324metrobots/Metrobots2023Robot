@@ -5,6 +5,7 @@
 package frc.robot.drivetrain.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.drivetrain.Drivetrain;
 
 public class Drive extends CommandBase {
   /** Creates a new Drive. */
@@ -13,8 +14,9 @@ public class Drive extends CommandBase {
   }
 
   // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+  public void initialize(Drivetrain drivetrain) {
+    addRequirements(drivetrain);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
