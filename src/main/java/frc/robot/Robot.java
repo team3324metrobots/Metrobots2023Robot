@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   // --- DECLARE DRIVER CONTROLLER VALUES ---
+  public static double primaryLeftX;
   public static double primaryLeftY;
   public static double primaryRightY;
   public static double secondaryLeftY;
@@ -53,6 +54,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     // Assign new values to controller values every 20ms
+    primaryLeftX = RobotContainer.primaryDriver.getLeftX();
     primaryLeftY = RobotContainer.primaryDriver.getLeftY();
     primaryRightY = RobotContainer.primaryDriver.getRightY();
     secondaryLeftY = RobotContainer.secondaryDriver.getLeftY();

@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.arm.Arm;
 import frc.robot.arm.commands.ControlArm;
+import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.commands.Drive;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -32,6 +34,7 @@ public class RobotContainer {
 
   // --- INITIALIZE SUBSYSTEMS ---
   public static Arm arm = new Arm();
+  public static Drivetrain drivetrain = new Drivetrain();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,6 +53,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm));
   }
 
