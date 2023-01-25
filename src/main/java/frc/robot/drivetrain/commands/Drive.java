@@ -36,7 +36,7 @@ public class Drive extends CommandBase {
     
     throttle = Robot.primaryRT - Robot.primaryLT;
 
-    drivetrain.curvatureDrive(throttle, turnSpeed);
+    drivetrain.curvatureDrive(throttle, -turnSpeed);
   }
 
   // Called once the command ends or is interrupted.

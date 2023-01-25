@@ -8,6 +8,7 @@ import frc.robot.arm.Arm;
 import frc.robot.arm.commands.ControlArm;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.commands.Drive;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -36,21 +37,14 @@ public class RobotContainer {
   public static Arm arm = new Arm();
   public static Drivetrain drivetrain = new Drivetrain();
 
+  private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
