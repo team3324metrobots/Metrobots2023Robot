@@ -27,6 +27,7 @@ public final class Constants {
 
     public static final double CONVERSION_RATIO = DT_GEAR_RATIO_STAGE1 * DT_GEAR_RATIO_STAGE2;
     public static final double WHEEL_DIAMETER_METERS = 6.125 / 39.36;
+    public static final double CIRCUMFERENCE_METERS = Math.PI * WHEEL_DIAMETER_METERS;
 
     // --- DRIVETRAIN MOTORS ---
     // right side

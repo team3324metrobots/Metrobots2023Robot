@@ -4,12 +4,16 @@
 
 package frc.robot.drivetrain;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,19 +21,32 @@ import frc.robot.util.Constants;
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
+  /*
+   * rfMotor = right front motor
+   * rmMotor = right middle motor
+   * rbMotor = right back motor
+   * lfMotor = left front motor
+   * lmMotor = left middle motor
+   * lbMotor = left back motor
+   */
   // right side
   private final CANSparkMax rfMotor = new CANSparkMax(Constants.Drivetrain.R_FRONT_MOTOR, MotorType.kBrushless);
-  private final CANSparkMax rmMotor = new CANSparkMax(Constants.Drivetrain.R_MIDDLE_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax rmMotor = new CANSparkMax(Constants.Drivetrain.R_MIDDLE_MOTOR, MotorType.kBrushless);
   private final CANSparkMax rbMotor = new CANSparkMax(Constants.Drivetrain.R_BACK_MOTOR, MotorType.kBrushless);
   // left side
   private final CANSparkMax lfMotor = new CANSparkMax(Constants.Drivetrain.L_FRONT_MOTOR, MotorType.kBrushless);
-  private final CANSparkMax lmMotor = new CANSparkMax(Constants.Drivetrain.L_MIDDLE_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax lmMotor = new CANSparkMax(Constants.Drivetrain.L_MIDDLE_MOTOR, MotorType.kBrushless);
   private final CANSparkMax lbMotor = new CANSparkMax(Constants.Drivetrain.L_BACK_MOTOR, MotorType.kBrushless);
 
   // --- ENCODERS ---
-  private RelativeEncoder rEncoder = rmMotor.getEncoder();
-  private RelativeEncoder lEncoder = lmMotor.getEncoder();
+  private static RelativeEncoder rEncoder = rmMotor.getEncoder();
+  private static RelativeEncoder lEncoder = lmMotor.getEncoder();
 
+  // --- GYRO ---
+  private final AHRS navX = new AHRS(SPI.Port.kMXP);
+  private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
+
+ 
   private DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
   
   /** Creates a new Drivetrain. */
@@ -65,6 +82,7 @@ public class Drivetrain extends SubsystemBase {
     lmMotor.setSecondaryCurrentLimit(40.0);
 
     setBrakeMode(IdleMode.kBrake);
+    resetEncoders();
 
     rfMotor.burnFlash();
     rmMotor.burnFlash();
@@ -76,6 +94,7 @@ public class Drivetrain extends SubsystemBase {
     drive.setSafetyEnabled(true);
   }
 
+  // --- GETTERS & SETTERS ---
   public void setBrakeMode(CANSparkMax.IdleMode brakeMode) {
     rfMotor.setIdleMode(brakeMode);
     rmMotor.setIdleMode(brakeMode);
@@ -89,8 +108,37 @@ public class Drivetrain extends SubsystemBase {
     drive.setMaxOutput(speed);
   }
 
+  public void getLeftEncoderPosition() {
+    lEncoder.getPosition();
+  }
+
+  public void getRightEncoderPosition() {
+    rEncoder.getPosition();
+  }
+
+  public double getVelocity() {
+    return (lEncoder.getVelocity() - rEncoder.getVelocity()) / 2;
+  }
+
+  public void getGyroPitch() {
+    navX.getPitch();
+  }
+
+  public void getGyroYaw() {
+    navX.getYaw();
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(lEncoder.getVelocity(), rEncoder.getVelocity());
+  }
+
+  public double getDistance() {
+    return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
+  }
+
+  public static void resetEncoders() {
+    lEncoder.setPosition(0.0);
+    rEncoder.setPosition(0.0);
   }
 
   private void curvatureDrive(double xSpeed, double ySpeed, boolean quickTurn) {
@@ -106,5 +154,6 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left Wheel Speed", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right Wheel Speed", getWheelSpeeds().rightMetersPerSecond);
+    SmartDashboard.putNumber("Velocity", getVelocity());
   }
 }
