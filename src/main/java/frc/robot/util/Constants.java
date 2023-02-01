@@ -39,5 +39,7 @@ public final class Constants {
     public static final int L_FRONT_MOTOR = 4;
     public static final int L_MIDDLE_MOTOR = 3;
     public static final int L_BACK_MOTOR = 2;
+
+    public static final double CONTROLLER_DEADZONE = 0.2;
   }
 }

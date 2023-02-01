@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.util.Constants;
 
 public class Drive extends CommandBase {
   Drivetrain drivetrain;
@@ -35,6 +36,10 @@ public class Drive extends CommandBase {
     double turnSpeed = turnSpeedSupplier.getAsDouble();
     
     throttle = Robot.primaryRT - Robot.primaryLT;
+
+    if (turnSpeed < Constants.Drivetrain.CONTROLLER_DEADZONE && turnSpeed > -Constants.Drivetrain.CONTROLLER_DEADZONE) {
+      turnSpeed = 0;
+    }
 
     drivetrain.curvatureDrive(throttle, -turnSpeed);
   }

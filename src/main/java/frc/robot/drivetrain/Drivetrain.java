@@ -10,9 +10,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,13 +43,16 @@ public class Drivetrain extends SubsystemBase {
   // --- ENCODERS ---
   private static RelativeEncoder rEncoder = rmMotor.getEncoder();
   private static RelativeEncoder lEncoder = lmMotor.getEncoder();
-
+  
   // --- GYRO ---
-  private final AHRS navX = new AHRS(SPI.Port.kMXP);
+  private static final AHRS navX = new AHRS(SPI.Port.kMXP);
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
+  // --- PID CONTROL ---
+  public static PIDController PIDControl = new PIDController(0.008, 0.0001, 0.001);
+
  
-  private DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
+  private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
   
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -74,7 +79,7 @@ public class Drivetrain extends SubsystemBase {
     // ramp rate (BE CAREFUL WHEN CHANGING)
     rmMotor.setOpenLoopRampRate(0.25);
     lmMotor.setOpenLoopRampRate(0.25);
-
+    
     // current limits (DO NOT CHANGE NO MATTER WHAT UNLESS YOU WANT A SMOKING NEO)
     rmMotor.setSmartCurrentLimit(40);
     lmMotor.setSmartCurrentLimit(40);
@@ -104,28 +109,49 @@ public class Drivetrain extends SubsystemBase {
     lbMotor.setIdleMode(brakeMode);
   }
 
-  public void setMaxOutput(double speed) {
+  public static void setMaxOutput(double speed) {
     drive.setMaxOutput(speed);
   }
 
-  public void getLeftEncoderPosition() {
-    lEncoder.getPosition();
+  public static double getLeftEncoderPosition() {
+    return lEncoder.getPosition();
   }
 
-  public void getRightEncoderPosition() {
-    rEncoder.getPosition();
+  public static double getRightEncoderPosition() {
+    return rEncoder.getPosition();
   }
 
-  public double getVelocity() {
-    return (lEncoder.getVelocity() - rEncoder.getVelocity()) / 2;
+  public static double getPosition() {
+    return (lEncoder.getPosition() - rEncoder.getPosition()) / 2;
   }
 
-  public void getGyroPitch() {
-    navX.getPitch();
+  public static double getVelocity() {
+    return (rEncoder.getVelocity() - lEncoder.getVelocity()) / 2;
   }
 
-  public void getGyroYaw() {
-    navX.getYaw();
+  public static double getGyroAngle() {
+    return navX.getAngle();
+  }
+
+  public static double getGyroAngle360() {
+    // this function is for viewing the gyro's current angle in a human-viewable way
+    if (navX.getAngle() > 360) {
+      return navX.getAngle() - 360;
+    }
+    else if (navX.getAngle() < 0) {
+      return navX.getAngle() + 360;
+    }
+    else {
+      return navX.getAngle();
+    }
+  }
+
+  public static double getGyroPitch() {
+    return navX.getPitch();
+  }
+
+  public static double getGyroYaw() {
+    return navX.getYaw();
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
