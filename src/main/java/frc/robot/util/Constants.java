@@ -20,7 +20,7 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int INTAKE_MOTOR = 11
+    public static final int INTAKE_MOTOR = 11;
   }
 
   public static class Drivetrain {
