@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.arm.Arm;
 import frc.robot.arm.commands.ControlArm;
 import frc.robot.drivetrain.Drivetrain;
+import frc.robot.drivetrain.commands.AutoBalance;
 import frc.robot.drivetrain.commands.Drive;
 import frc.robot.drivetrain.commands.GyroTurn;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -49,7 +50,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm));
-    primaryDriver.y().whileTrue(new GyroTurn(drivetrain, drivetrain.getGyroAngle()));
+    primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
   }
 
   /**

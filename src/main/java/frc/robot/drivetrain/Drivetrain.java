@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,7 +50,11 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
-  public PIDController PIDControl = new PIDController(0.008, 0.0001, 0.001);
+  private double kP = 0.0;
+  private double kI = 0.0;
+  private double kD = 0.0;
+  public PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
+  public PIDController PIDControlPitch = new PIDController(kP, kI, kD);
 
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
@@ -85,6 +90,11 @@ public class Drivetrain extends SubsystemBase {
     lmMotor.setSmartCurrentLimit(40);
     rmMotor.setSecondaryCurrentLimit(40.0);
     lmMotor.setSecondaryCurrentLimit(40.0);
+
+    // PID values for autobalance
+    Preferences.initDouble("AutoBal P", kP);
+    Preferences.initDouble("AutoBal I", kI);
+    Preferences.initDouble("AutoBal D", kD);
 
     setBrakeMode(IdleMode.kBrake);
     resetEncoders();
@@ -191,5 +201,9 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Robot Pitch", getGyroPitch());
     SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
     SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
+
+    PIDControlPitch.setP(kP);
+    PIDControlPitch.setI(kI);
+    PIDControlPitch.setD(kD);
   }
 }
