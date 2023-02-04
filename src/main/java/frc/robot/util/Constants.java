@@ -19,6 +19,10 @@ public final class Constants {
     public static final int TELESCOPE_MOTOR = 10;
   }
 
+  public static class Intake {
+    public static final int INTAKE_MOTOR = 11
+  }
+
   public static class Drivetrain {
     // --- ENCODER AND AUTO CONSTANTS ---
     // gear ratios

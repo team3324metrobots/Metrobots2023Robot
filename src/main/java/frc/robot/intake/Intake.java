@@ -8,7 +8,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  public Intake() {}
+  private static final CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.INTAKE_MOTOR, MotorType.kBrushless);
+  
+
+  public Intake() {
+  }
+
+  public void setIntakeSpeed(double speed) {
+    intakeMotor.set(speed);
+  }
 
   @Override
   public void periodic() {
