@@ -8,7 +8,7 @@ package frc.robot.util;
  * ------ CAN ID KEY ------
  * 2-7: Drivetrain
  * 8-10: Arm
- *  - 8,9: Control arm
+ *  - 8, 9: Control arm
  *  - 10: Telescope arm
  * 11+: Other subsystems
  */

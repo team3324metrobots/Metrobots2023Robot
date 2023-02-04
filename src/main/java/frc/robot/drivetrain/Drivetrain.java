@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -32,13 +33,13 @@ public class Drivetrain extends SubsystemBase {
    * lbMotor = left back motor
    */
   // right side
-  private final CANSparkMax rfMotor = new CANSparkMax(Constants.Drivetrain.R_FRONT_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax rfMotor = new CANSparkMax(Constants.Drivetrain.R_FRONT_MOTOR, MotorType.kBrushless);
   private final static CANSparkMax rmMotor = new CANSparkMax(Constants.Drivetrain.R_MIDDLE_MOTOR, MotorType.kBrushless);
-  private final CANSparkMax rbMotor = new CANSparkMax(Constants.Drivetrain.R_BACK_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax rbMotor = new CANSparkMax(Constants.Drivetrain.R_BACK_MOTOR, MotorType.kBrushless);
   // left side
-  private final CANSparkMax lfMotor = new CANSparkMax(Constants.Drivetrain.L_FRONT_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax lfMotor = new CANSparkMax(Constants.Drivetrain.L_FRONT_MOTOR, MotorType.kBrushless);
   private final static CANSparkMax lmMotor = new CANSparkMax(Constants.Drivetrain.L_MIDDLE_MOTOR, MotorType.kBrushless);
-  private final CANSparkMax lbMotor = new CANSparkMax(Constants.Drivetrain.L_BACK_MOTOR, MotorType.kBrushless);
+  private final static CANSparkMax lbMotor = new CANSparkMax(Constants.Drivetrain.L_BACK_MOTOR, MotorType.kBrushless);
 
   // --- ENCODERS ---
   private static RelativeEncoder rEncoder = rmMotor.getEncoder();
@@ -49,7 +50,11 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
-  public static PIDController PIDControl = new PIDController(0.008, 0.0001, 0.001);
+  private double kP = 0.0;
+  private double kI = 0.0;
+  private double kD = 0.0;
+  public PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
+  public PIDController PIDControlPitch = new PIDController(kP, kI, kD);
 
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
@@ -71,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
     lfMotor.follow(lmMotor, false);
     lbMotor.follow(lmMotor, false); 
 
-    // invert motors question mark?
+    // invert right-side motors because they're backwards :/
     rfMotor.setInverted(true);
     rmMotor.setInverted(true);
     rbMotor.setInverted(true);
@@ -86,9 +91,15 @@ public class Drivetrain extends SubsystemBase {
     rmMotor.setSecondaryCurrentLimit(40.0);
     lmMotor.setSecondaryCurrentLimit(40.0);
 
+    // PID values for autobalance
+    Preferences.initDouble("AutoBal P", kP);
+    Preferences.initDouble("AutoBal I", kI);
+    Preferences.initDouble("AutoBal D", kD);
+
     setBrakeMode(IdleMode.kBrake);
     resetEncoders();
 
+    // burn flash all changes made so they stick
     rfMotor.burnFlash();
     rmMotor.burnFlash();
     rbMotor.burnFlash();
@@ -109,31 +120,31 @@ public class Drivetrain extends SubsystemBase {
     lbMotor.setIdleMode(brakeMode);
   }
 
-  public static void setMaxOutput(double speed) {
+  public void setMaxOutput(double speed) {
     drive.setMaxOutput(speed);
   }
 
-  public static double getLeftEncoderPosition() {
+  public double getLeftEncoderPosition() {
     return lEncoder.getPosition();
   }
 
-  public static double getRightEncoderPosition() {
+  public double getRightEncoderPosition() {
     return rEncoder.getPosition();
   }
 
-  public static double getPosition() {
+  public double getPosition() {
     return (lEncoder.getPosition() - rEncoder.getPosition()) / 2;
   }
 
-  public static double getVelocity() {
+  public double getVelocity() {
     return (rEncoder.getVelocity() - lEncoder.getVelocity()) / 2;
   }
 
-  public static double getGyroAngle() {
+  public double getGyroAngle() {
     return navX.getAngle();
   }
 
-  public static double getGyroAngle360() {
+  public double getGyroAngle360() {
     // this function is for viewing the gyro's current angle in a human-viewable way
     if (navX.getAngle() > 360) {
       return navX.getAngle() - 360;
@@ -146,16 +157,21 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public static double getGyroPitch() {
+  public double getGyroPitch() {
     return navX.getPitch();
   }
 
-  public static double getGyroYaw() {
+  public double getGyroYaw() {
     return navX.getYaw();
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(lEncoder.getVelocity(), rEncoder.getVelocity());
+  }
+
+  public Pose2d getPose() {
+    // like getPosition() but uses the robot odometry rather than the encoder positions alone
+    return driveOdometry.getPoseMeters();
   }
 
   public double getDistance() {
@@ -181,5 +197,13 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Left Wheel Speed", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right Wheel Speed", getWheelSpeeds().rightMetersPerSecond);
     SmartDashboard.putNumber("Velocity", getVelocity());
+
+    SmartDashboard.putNumber("Robot Pitch", getGyroPitch());
+    SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
+    SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
+
+    PIDControlPitch.setP(kP);
+    PIDControlPitch.setI(kI);
+    PIDControlPitch.setD(kD);
   }
 }
