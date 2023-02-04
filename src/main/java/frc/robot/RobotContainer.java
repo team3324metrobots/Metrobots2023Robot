@@ -9,11 +9,10 @@ import frc.robot.arm.commands.ControlArm;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.commands.AutoBalance;
 import frc.robot.drivetrain.commands.Drive;
-import frc.robot.drivetrain.commands.GyroTurn;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -32,7 +31,7 @@ public class RobotContainer {
 
   // --- PNEUMATICS ---
   private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  private final Solenoid solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 6);
+  private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7); 
 
   // --- INITIALIZE SUBSYSTEMS ---
   public static Arm arm = new Arm();

@@ -8,14 +8,20 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.util.Constants;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
-  // Define arm motor controllers
+  // --- ARM MOTORS ---
   private final CANSparkMax lMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_L, MotorType.kBrushless);
   private final CANSparkMax rMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_R, MotorType.kBrushless);
   private final CANSparkMax teleMotor = new CANSparkMax(Constants.Arm.TELESCOPE_MOTOR, MotorType.kBrushless);
+
+  // --- ARM PID CONTROLLER ---
+  double kP = 0.0;
+  double kI = 0.0;
+  double kD = 0.0;
+  private PIDController PIDControlArm = new PIDController(kP, kI, kD);
 
   /** Creates a new Arm. */
   public Arm() {

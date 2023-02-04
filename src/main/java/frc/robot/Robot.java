@@ -20,14 +20,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  // --- DECLARE DRIVER CONTROLLER VALUES ---
-  public static double primaryLeftX;
-  public static double primaryLeftY;
-  public static double primaryRightY;
-  public static double secondaryLeftY;
-  public static double primaryLT;
-  public static double primaryRT;
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -57,12 +49,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     // Assign new values to controller values every 20ms
-    primaryLeftX = RobotContainer.primaryDriver.getLeftX();
-    primaryLeftY = RobotContainer.primaryDriver.getLeftY();
-    primaryRightY = RobotContainer.primaryDriver.getRightY();
-    secondaryLeftY = RobotContainer.secondaryDriver.getLeftY();
-    primaryLT = RobotContainer.primaryDriver.getLeftTriggerAxis();
-    primaryRT = RobotContainer.primaryDriver.getRightTriggerAxis();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

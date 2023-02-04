@@ -7,7 +7,7 @@ package frc.robot.drivetrain.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.util.Constants;
 
@@ -35,7 +35,7 @@ public class Drive extends CommandBase {
   public void execute() {
     double turnSpeed = turnSpeedSupplier.getAsDouble();
     
-    throttle = Robot.primaryRT - Robot.primaryLT;
+    throttle = RobotContainer.primaryDriver.getRightTriggerAxis() - RobotContainer.primaryDriver.getLeftTriggerAxis();
 
     if (turnSpeed < Constants.Drivetrain.CONTROLLER_DEADZONE && turnSpeed > -Constants.Drivetrain.CONTROLLER_DEADZONE) {
       turnSpeed = 0;
