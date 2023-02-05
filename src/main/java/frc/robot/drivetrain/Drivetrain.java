@@ -46,7 +46,7 @@ public class Drivetrain extends SubsystemBase {
   private static RelativeEncoder lEncoder = lmMotor.getEncoder();
   
   // --- GYRO ---
-  private static final AHRS navX = new AHRS(SPI.Port.kMXP);
+  private final AHRS navX = new AHRS(SPI.Port.kMXP);
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
@@ -140,6 +140,10 @@ public class Drivetrain extends SubsystemBase {
     return (rEncoder.getVelocity() - lEncoder.getVelocity()) / 2;
   }
 
+  public AHRS getGyro() {
+    return this.navX;
+  }
+
   public double getGyroAngle() {
     return navX.getAngle();
   }
@@ -178,7 +182,7 @@ public class Drivetrain extends SubsystemBase {
     return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
   }
 
-  public static void resetEncoders() {
+  public void resetEncoders() {
     lEncoder.setPosition(0.0);
     rEncoder.setPosition(0.0);
   }
