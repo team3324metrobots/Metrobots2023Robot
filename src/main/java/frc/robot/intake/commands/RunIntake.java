@@ -5,11 +5,17 @@
 package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.intake.Intake;
 
 public class RunIntake extends CommandBase {
+  Intake intake;
+  double speed;
   /** Creates a new RunIntake. */
-  public RunIntake() {
+  public RunIntake(Intake intake, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intake);
+    this.intake = intake;
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +24,9 @@ public class RunIntake extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intake.setIntakeSpeed(speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
