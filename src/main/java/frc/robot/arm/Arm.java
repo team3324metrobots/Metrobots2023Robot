@@ -22,6 +22,7 @@ public class Arm extends SubsystemBase {
   // --- ARM ENCODERS ---
   private final RelativeEncoder lEncoder = lMotor.getEncoder();
   private final RelativeEncoder rEncoder = rMotor.getEncoder();
+  private final RelativeEncoder teleEncoder = teleMotor.getEncoder();
 
   // --- ARM PID CONTROLLER ---
   double kP = 0.0;
@@ -40,8 +41,16 @@ public class Arm extends SubsystemBase {
     lMotor.set(speed);
   }
 
-  public double getPosition() {
+  public void setTeleSpeed(double speed) {
+    teleMotor.set(speed);
+  }
+
+  public double getArmPosition() {
     return (lEncoder.getPosition() - rEncoder.getPosition()) / 2;
+  }
+
+  public double getTelePosition() {
+    return teleEncoder.getPosition();
   }
 
   @Override

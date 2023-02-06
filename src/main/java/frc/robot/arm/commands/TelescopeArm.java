@@ -10,6 +10,7 @@ import frc.robot.arm.Arm;
 public class TelescopeArm extends CommandBase {
   Arm arm;
   double position;
+  double speed;
 
   /** Creates a new TelescopeArm. */
   public TelescopeArm(Arm arm, double position) {
@@ -25,7 +26,19 @@ public class TelescopeArm extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    // this should be good enough for the telescope, if its not we use PID
+    if (arm.getTelePosition() > position) {
+      speed = -1.0;
+    }
+    else if (arm.getArmPosition() < position) {
+      speed = 1.0;
+    }
+    else {
+      speed = 0;
+    }
+    arm.setTeleSpeed(speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
