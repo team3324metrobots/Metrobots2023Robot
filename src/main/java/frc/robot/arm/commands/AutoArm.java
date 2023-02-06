@@ -5,16 +5,18 @@
 package frc.robot.arm.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.arm.Arm;
 
-public class ControlArm extends CommandBase {
-  /** Creates a new ControlArm. */
+public class AutoArm extends CommandBase {
+  Arm arm;
   double position;
 
-  public ControlArm(Arm arm) {
+  /** Creates a new AutoArm. */
+  public AutoArm(Arm arm, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
+    this.arm = arm;
+    this.position = position;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +26,8 @@ public class ControlArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm.setArmSpeed(RobotContainer.primaryDriver.getRightY() * 0.5);
+    double speed = arm.PIDControlArm.calculate(arm.getPosition(), position);    
+    arm.setArmSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
