@@ -5,11 +5,18 @@
 package frc.robot.arm.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.arm.Arm;
 
 public class TelescopeArm extends CommandBase {
+  Arm arm;
+  double position;
+
   /** Creates a new TelescopeArm. */
-  public TelescopeArm() {
+  public TelescopeArm(Arm arm, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(arm);
+    this.arm = arm;
+    this.position = position;
   }
 
   // Called when the command is initially scheduled.
