@@ -9,8 +9,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.util.Constants;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -25,10 +25,10 @@ public class Arm extends SubsystemBase {
   private final RelativeEncoder teleEncoder = teleMotor.getEncoder();
 
   // --- ARM PID CONTROLLER ---
-  double kP = 0.0;
-  double kI = 0.0;
-  double kD = 0.0;
-  public PIDController PIDControlArm = new PIDController(kP, kI, kD);
+  private double kS;
+  private double kG;
+  private double kV;
+  public ArmFeedforward FeedforwardArm = new ArmFeedforward(kS, kG, kV);
 
   /** Creates a new Arm. */
   public Arm() {
@@ -51,6 +51,10 @@ public class Arm extends SubsystemBase {
 
   public double getTelePosition() {
     return teleEncoder.getPosition();
+  }
+
+  public double getArmVelocity() {
+    return (lEncoder.getVelocity() - rEncoder.getVelocity()) / 2;
   }
 
   @Override
