@@ -26,7 +26,7 @@ public class GyroTurn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.PIDControlYaw.setTolerance(1.0);
+    drivetrain.setPIDYawTolerance(1.0);
     angle = Preferences.getDouble("GyroTurn Angle Target", 90.0);
     SmartDashboard.putNumber("GyroTurn Start", drivetrain.getGyroAngle360());
     goal = drivetrain.getGyroAngle() + angle;
@@ -36,7 +36,7 @@ public class GyroTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = drivetrain.PIDControlYaw.calculate(drivetrain.getGyroAngle(), goal);
+    double speed = drivetrain.getPIDYawSpeed(goal);
     SmartDashboard.putNumber("PID Speed", speed);
     drivetrain.curvatureDrive(0.0, -speed);
     SmartDashboard.putNumber("GyroTurn End", drivetrain.getGyroAngle360());

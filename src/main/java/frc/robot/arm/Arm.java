@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.util.Constants;
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -28,7 +27,7 @@ public class Arm extends SubsystemBase {
   private double kS;
   private double kG;
   private double kV;
-  public ArmFeedforward FeedforwardArm = new ArmFeedforward(kS, kG, kV);
+  private ArmFeedforward FeedforwardArm = new ArmFeedforward(kS, kG, kV);
 
   /** Creates a new Arm. */
   public Arm() {
@@ -55,6 +54,10 @@ public class Arm extends SubsystemBase {
 
   public double getArmVelocity() {
     return (lEncoder.getVelocity() - rEncoder.getVelocity()) / 2;
+  }
+
+  public double getFeedForwardSpeed() {
+    return FeedforwardArm.calculate(getArmPosition(), getArmVelocity());
   }
 
   @Override

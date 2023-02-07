@@ -53,8 +53,8 @@ public class Drivetrain extends SubsystemBase {
   private double kP = 0.0;
   private double kI = 0.0;
   private double kD = 0.0;
-  public PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
-  public PIDController PIDControlPitch = new PIDController(kP, kI, kD);
+  private PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
+  private PIDController PIDControlPitch = new PIDController(kP, kI, kD);
 
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
@@ -124,6 +124,26 @@ public class Drivetrain extends SubsystemBase {
     drive.setMaxOutput(speed);
   }
 
+  public void setPIDYawTolerance(double tolerance) {
+    PIDControlYaw.setTolerance(tolerance);
+  }
+
+  public void setPIDPitchTolerance(double tolerance) {
+    PIDControlPitch.setTolerance(tolerance);
+  }
+
+  public void setPitchP(double kP) {
+    PIDControlPitch.setP(kP);
+  }
+
+  public void setPitchI(double kI) {
+    PIDControlPitch.setI(kI);
+  }
+
+  public void setPitchD(double kD) {
+    PIDControlPitch.setD(kD);
+  }
+
   public double getLeftEncoderPosition() {
     return lEncoder.getPosition();
   }
@@ -180,6 +200,23 @@ public class Drivetrain extends SubsystemBase {
 
   public double getDistance() {
     return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
+  }
+
+  public double getPIDYawSpeed(double setpoint) {
+    return PIDControlYaw.calculate(getGyroYaw(), setpoint);
+  }
+
+  public double getPIDPitchSpeed(double setpoint) {
+    return PIDControlPitch.calculate(getGyroPitch(), setpoint);
+  }
+
+  public boolean pitchAtSetpoint() {
+    if (PIDControlPitch.atSetpoint()) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   public void resetEncoders() {
