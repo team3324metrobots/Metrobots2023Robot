@@ -4,16 +4,23 @@
 
 package frc.robot.arm.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.arm.Arm;
 
 public class ControlArm extends CommandBase {
   /** Creates a new ControlArm. */
+  Arm arm;
+  DoubleSupplier armSpeedSupplier;
 
-  public ControlArm(Arm arm) {
+  public ControlArm(Arm arm, DoubleSupplier armSpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
+
+    this.arm = arm;
+    this.armSpeedSupplier = armSpeedSupplier;
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +30,9 @@ public class ControlArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm.setArmSpeed(RobotContainer.primaryDriver.getRightY() * 0.5);
+    double armSpeed = armSpeedSupplier.getAsDouble();
+
+    RobotContainer.arm.setArmSpeed(armSpeed * 0.5);
   }
 
   // Called once the command ends or is interrupted.

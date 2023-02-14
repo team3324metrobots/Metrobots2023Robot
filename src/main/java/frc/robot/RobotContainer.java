@@ -48,7 +48,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
-    arm.setDefaultCommand(new ControlArm(arm));
+    arm.setDefaultCommand(new ControlArm(arm, primaryDriver::getRightY));
     primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
   }
 
