@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+import io.github.oblarg.oblog.annotations.Config;
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
@@ -50,8 +51,11 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
+  @Config
   private double kP = 0.0;
+  @Config
   private double kI = 0.0;
+  @Config
   private double kD = 0.0;
   private PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
   private PIDController PIDControlPitch = new PIDController(kP, kI, kD);
@@ -211,12 +215,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public boolean pitchAtSetpoint() {
-    if (PIDControlPitch.atSetpoint()) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return PIDControlPitch.atSetpoint();
   }
 
   public void resetEncoders() {
@@ -242,9 +241,5 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Robot Pitch", getGyroPitch());
     SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
     SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
-
-    PIDControlPitch.setP(kP);
-    PIDControlPitch.setI(kI);
-    PIDControlPitch.setD(kD);
   }
 }

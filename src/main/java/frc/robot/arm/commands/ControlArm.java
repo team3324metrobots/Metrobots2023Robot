@@ -10,7 +10,6 @@ import frc.robot.arm.Arm;
 
 public class ControlArm extends CommandBase {
   /** Creates a new ControlArm. */
-  double position;
 
   public ControlArm(Arm arm) {
     // Use addRequirements() here to declare subsystem dependencies.

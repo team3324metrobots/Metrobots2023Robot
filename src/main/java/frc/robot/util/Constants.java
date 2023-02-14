@@ -7,10 +7,20 @@ package frc.robot.util;
 /**
  * ------ CAN ID KEY ------
  * 2-7: Drivetrain
+ *  - 2-4: Left side
+ *   - 2: Left back motor
+ *   - 3: Left middle motor
+ *   - 4: Left front motor
+ *  - 5-7: Right side
+ *   - 5: Right back motor
+ *   - 6: Right middle motor
+ *   - 7: Right front motor
  * 8-10: Arm
  *  - 8, 9: Control arm
  *  - 10: Telescope arm
- * 11+: Other subsystems
+ * 11, 12: Intake
+ *  - 11: Cube intake
+ *  - 12: Cone intake
  */
 public final class Constants {
   public static class Arm {
@@ -20,7 +30,8 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int INTAKE_MOTOR = 11;
+    public static final int INTAKE_MOTOR_CUBE = 11;
+    public static final int INTAKE_MOTOR_CONE = 12;
   }
 
   public static class Drivetrain {
