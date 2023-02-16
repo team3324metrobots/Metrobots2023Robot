@@ -6,9 +6,12 @@ package frc.robot;
 
 import frc.robot.arm.Arm;
 import frc.robot.arm.commands.ControlArm;
+import frc.robot.arm.commands.TelescopeDebug;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.commands.AutoBalance;
 import frc.robot.drivetrain.commands.Drive;
+import frc.robot.intake.Intake;
+import frc.robot.intake.commands.RunIntake;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -34,8 +37,9 @@ public class RobotContainer {
   private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7); 
 
   // --- INITIALIZE SUBSYSTEMS ---
-  public static Arm arm = new Arm();
+  private static Arm arm = new Arm();
   public static Drivetrain drivetrain = new Drivetrain();
+  private static Intake intake = new Intake();
 
   private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
 
@@ -50,6 +54,10 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, primaryDriver::getRightY));
     primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
+    primaryDriver.rightBumper().whileTrue(new RunIntake(intake, intake.intakeMotorCube, 0.35));
+    primaryDriver.leftBumper().whileTrue(new RunIntake(intake, intake.intakeMotorCube, -0.35));
+    // primaryDriver.rightBumper().whileTrue(new TelescopeDebug(arm, 0.1));
+    // primaryDriver.leftBumper().whileTrue(new TelescopeDebug(arm, -0.1));
   }
 
   /**

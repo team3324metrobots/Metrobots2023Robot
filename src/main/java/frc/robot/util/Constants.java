@@ -27,6 +27,8 @@ public final class Constants {
     public static final int ARM_MOTOR_L = 8;
     public static final int ARM_MOTOR_R = 9;
     public static final int TELESCOPE_MOTOR = 10;
+
+    public static final double ARM_CONTROLLER_DEADZONE = 0.5;
   }
 
   public static class Intake {

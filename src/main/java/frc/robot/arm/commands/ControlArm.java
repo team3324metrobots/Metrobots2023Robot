@@ -7,8 +7,8 @@ package frc.robot.arm.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.arm.Arm;
+import frc.robot.util.Constants;
 
 public class ControlArm extends CommandBase {
   /** Creates a new ControlArm. */
@@ -32,7 +32,11 @@ public class ControlArm extends CommandBase {
   public void execute() {
     double armSpeed = armSpeedSupplier.getAsDouble();
 
-    RobotContainer.arm.setArmSpeed(armSpeed * 0.5);
+    if (armSpeed < Constants.Arm.ARM_CONTROLLER_DEADZONE) {
+      armSpeed = 0;
+    }
+
+    arm.setArmSpeed(armSpeed * 0.5);
   }
 
   // Called once the command ends or is interrupted.

@@ -6,6 +6,7 @@ package frc.robot.arm;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.util.Constants;
@@ -23,7 +24,7 @@ public class Arm extends SubsystemBase {
   private final RelativeEncoder rEncoder = rMotor.getEncoder();
   private final RelativeEncoder teleEncoder = teleMotor.getEncoder();
 
-  // --- ARM PID CONTROLLER ---
+  // --- ARM FEEDFORWARD CONTROLLER ---
   private double kS;
   private double kG;
   private double kV;
@@ -32,6 +33,12 @@ public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
   public Arm() {
     rMotor.follow(lMotor, true);
+
+    lMotor.setIdleMode(IdleMode.kBrake);
+    rMotor.setIdleMode(IdleMode.kBrake);
+
+    lMotor.burnFlash();
+    rMotor.burnFlash();
   }
 
   // --- GETTERS & SETTERS ---

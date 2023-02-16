@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.intake.commands;
+package frc.robot.arm.commands;
 
-import com.revrobotics.CANSparkMax;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.intake.Intake;
+import frc.robot.arm.Arm;
 
-public class RunIntake extends CommandBase {
-  Intake intake;
-  CANSparkMax motor;
+public class TelescopeDebug extends CommandBase {
+  Arm arm;
   double speed;
-  /** Creates a new RunIntake. */
-  public RunIntake(Intake intake, CANSparkMax motor, double speed) {
+
+  /** Creates a new TelescopeDebug. */
+  public TelescopeDebug(Arm arm, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
-    this.intake = intake;
-    this.motor = motor;
+    addRequirements(arm);
+
+    this.arm = arm;
     this.speed = speed;
   }
 
@@ -29,7 +29,7 @@ public class RunIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setIntakeSpeed(motor, speed);
+    arm.setTeleSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
