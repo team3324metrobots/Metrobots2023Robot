@@ -17,6 +17,8 @@ package frc.robot.util;
  *   - 7: Right front motor
  * 8-10: Arm
  *  - 8, 9: Control arm
+ *   - 8: Left arm motor
+ *   - 9: Right arm motor
  *  - 10: Telescope arm
  * 11, 12: Intake
  *  - 11: Cube intake
