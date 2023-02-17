@@ -12,14 +12,27 @@ import frc.robot.util.Constants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  public final CANSparkMax intakeMotorCube = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CUBE, MotorType.kBrushless);
-  public final CANSparkMax intakeMotorCone = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CONE, MotorType.kBrushless);
+  private static final CANSparkMax intakeMotorCube = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CUBE, MotorType.kBrushless);
+  private static final CANSparkMax intakeMotorCone = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CONE, MotorType.kBrushless);
+
+  public enum IntakeMotor {
+    CubeIntake(intakeMotorCube),
+    ConeIntake(intakeMotorCone);
+
+    private final CANSparkMax motor;
+
+    IntakeMotor(CANSparkMax motor) {
+      this.motor = motor;
+    }
+    public void set(double speed) {
+      motor.set(speed);
+    }
+  }
   
 
-  public Intake() {
-  }
+  public Intake() {}
 
-  public void setIntakeSpeed(CANSparkMax motor, double speed) {
+  public void setIntakeSpeed(IntakeMotor motor, double speed) {
     motor.set(speed);
   }
 

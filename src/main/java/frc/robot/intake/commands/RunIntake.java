@@ -4,17 +4,16 @@
 
 package frc.robot.intake.commands;
 
-import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.intake.Intake;
+import frc.robot.intake.Intake.IntakeMotor;
 
 public class RunIntake extends CommandBase {
   Intake intake;
-  CANSparkMax motor;
+  IntakeMotor motor;
   double speed;
   /** Creates a new RunIntake. */
-  public RunIntake(Intake intake, CANSparkMax motor, double speed) {
+  public RunIntake(Intake intake, IntakeMotor motor, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
     this.intake = intake;
