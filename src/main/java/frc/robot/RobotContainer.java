@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.arm.Arm;
 import frc.robot.arm.commands.ControlArm;
-import frc.robot.arm.commands.TelescopeDebug;
+import frc.robot.arm.commands.TelescopeArm;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.drivetrain.commands.AutoBalance;
 import frc.robot.drivetrain.commands.Drive;
