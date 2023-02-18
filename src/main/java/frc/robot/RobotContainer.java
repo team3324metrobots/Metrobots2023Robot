@@ -27,8 +27,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // --- INITIALIZE DRIVER CONTROLLERS ---
-  public final static CommandXboxController primaryDriver = new CommandXboxController(0);
-  public final static CommandXboxController secondaryDriver = new CommandXboxController(1);
+  private final static CommandXboxController primaryDriver = new CommandXboxController(0);
+  private final static CommandXboxController secondaryDriver = new CommandXboxController(1);
 
   // --- INITIALIZE SUBSYSTEMS ---
   private static Arm arm = new Arm();
@@ -44,16 +44,16 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftX));
-    arm.setDefaultCommand(new ControlArm(arm, primaryDriver::getRightY));
+    // --- DEFAULT COMMANDS ---
+    drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver.getLeftTriggerAxis(), primaryDriver.getRightTriggerAxis(), primaryDriver::getLeftX));
+    arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
     primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
-    // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, IntakeMotor.ConeIntake, 0.1));
-    // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, IntakeMotor.ConeIntake, -0.1));
-    primaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.35));
-    primaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.35));
-    // primaryDriver.rightBumper().whileTrue(new TelescopeDebug(arm, 0.1));
-    // primaryDriver.leftBumper().whileTrue(new TelescopeDebug(arm, -0.1));
+    // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
+    // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
+    secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.35));
+    secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.35));
+    secondaryDriver.leftBumper().whileTrue(new TelescopeArm(arm, -0.1));
+    secondaryDriver.rightBumper().whileTrue(new TelescopeArm(arm, 0.1));
   }
 
   /**

@@ -7,21 +7,26 @@ package frc.robot.drivetrain.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
 import frc.robot.drivetrain.Drivetrain;
 import frc.robot.util.Constants;
 
 public class Drive extends CommandBase {
   Drivetrain drivetrain;
+  double leftTrigger;
+  double rightTrigger;
   DoubleSupplier turnSpeedSupplier;
 
   double throttle = 0.0;
 
   /** Creates a new Drive. */
-  public Drive(Drivetrain drivetrain, DoubleSupplier turnSpeedSupplier) {
+  public Drive(Drivetrain drivetrain, double leftTrigger, double rightTrigger, DoubleSupplier turnSpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     this.drivetrain = drivetrain;
+    this.leftTrigger = leftTrigger;
+    this.rightTrigger = rightTrigger;
     this.turnSpeedSupplier = turnSpeedSupplier;
   }
 
@@ -35,7 +40,7 @@ public class Drive extends CommandBase {
   public void execute() {
     double turnSpeed = turnSpeedSupplier.getAsDouble();
     
-    throttle = RobotContainer.primaryDriver.getRightTriggerAxis() - RobotContainer.primaryDriver.getLeftTriggerAxis();
+    throttle = rightTrigger - leftTrigger;
 
     if (turnSpeed < Constants.Drivetrain.CONTROLLER_DEADZONE && turnSpeed > -Constants.Drivetrain.CONTROLLER_DEADZONE) {
       turnSpeed = 0;
