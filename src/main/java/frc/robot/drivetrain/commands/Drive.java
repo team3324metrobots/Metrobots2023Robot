@@ -14,19 +14,19 @@ import frc.robot.util.Constants;
 
 public class Drive extends CommandBase {
   Drivetrain drivetrain;
-  double leftTrigger;
-  double rightTrigger;
+  DoubleSupplier leftTriggerSupplier;
+  DoubleSupplier rightTriggerSupplier;
   DoubleSupplier turnSpeedSupplier;
 
   double throttle = 0.0;
 
   /** Creates a new Drive. */
-  public Drive(Drivetrain drivetrain, double leftTrigger, double rightTrigger, DoubleSupplier turnSpeedSupplier) {
+  public Drive(Drivetrain drivetrain, DoubleSupplier leftTriggerSupplier, DoubleSupplier rightTriggerSupplier, DoubleSupplier turnSpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     this.drivetrain = drivetrain;
-    this.leftTrigger = leftTrigger;
-    this.rightTrigger = rightTrigger;
+    this.leftTriggerSupplier = leftTriggerSupplier;
+    this.rightTriggerSupplier = rightTriggerSupplier;
     this.turnSpeedSupplier = turnSpeedSupplier;
   }
 
@@ -39,6 +39,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     double turnSpeed = turnSpeedSupplier.getAsDouble();
+    double leftTrigger = leftTriggerSupplier.getAsDouble();
+    double rightTrigger = rightTriggerSupplier.getAsDouble();
     
     throttle = rightTrigger - leftTrigger;
 

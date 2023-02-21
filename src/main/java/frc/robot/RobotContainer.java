@@ -45,13 +45,13 @@ public class RobotContainer {
 
   private void configureBindings() {
     // --- DEFAULT COMMANDS ---
-    drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver.getLeftTriggerAxis(), primaryDriver.getRightTriggerAxis(), primaryDriver::getLeftX));
+    drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftTriggerAxis, primaryDriver::getRightTriggerAxis, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
     primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
-    secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.35));
-    secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.35));
+    secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.5));
+    secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.leftBumper().whileTrue(new TelescopeArm(arm, -0.1));
     secondaryDriver.rightBumper().whileTrue(new TelescopeArm(arm, 0.1));
   }

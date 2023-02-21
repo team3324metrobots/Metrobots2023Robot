@@ -32,7 +32,7 @@ public class ControlArm extends CommandBase {
   public void execute() {
     double armSpeed = armSpeedSupplier.getAsDouble();
 
-    if (armSpeed < Constants.Arm.ARM_CONTROLLER_DEADZONE) {
+    if (armSpeed < Constants.Arm.ARM_CONTROLLER_DEADZONE && armSpeed > -Constants.Arm.ARM_CONTROLLER_DEADZONE) {
       armSpeed = 0;
     }
 
