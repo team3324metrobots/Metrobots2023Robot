@@ -52,8 +52,8 @@ public class RobotContainer {
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
     secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.5));
     secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.5));
-    secondaryDriver.leftBumper().whileTrue(new TelescopeArm(arm, -0.1));
-    secondaryDriver.rightBumper().whileTrue(new TelescopeArm(arm, 0.1));
+    secondaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
+    secondaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
   }
 
   /**

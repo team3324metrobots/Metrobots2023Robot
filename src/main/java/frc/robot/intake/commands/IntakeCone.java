@@ -6,10 +6,15 @@ package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.intake.Intake;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class IntakeCone extends CommandBase {
   Intake intake;
   double speed;
+  
+  @Log
+  double conePosition;
+
   /** Creates a new RunIntake. */
   public IntakeCone(Intake intake, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,6 +31,7 @@ public class IntakeCone extends CommandBase {
   @Override
   public void execute() {
     intake.setConeIntakeSpeed(speed);
+    conePosition = intake.getPosition();
   }
 
   // Called once the command ends or is interrupted.
