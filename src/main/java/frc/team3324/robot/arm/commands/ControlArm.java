@@ -2,24 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.arm.commands;
+package frc.team3324.robot.arm.commands;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.arm.Arm;
+import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.util.Constants;
 
-public class TelescopeArm extends CommandBase {
+public class ControlArm extends CommandBase {
+  /** Creates a new ControlArm. */
   Arm arm;
-  double speed;
+  DoubleSupplier armSpeedSupplier;
 
-  /** Creates a new TelescopeDebug. */
-  public TelescopeArm(Arm arm, double speed) {
+  public ControlArm(Arm arm, DoubleSupplier armSpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
 
     this.arm = arm;
-    this.speed = speed;
+    this.armSpeedSupplier = armSpeedSupplier;
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +30,13 @@ public class TelescopeArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setTeleSpeed(speed);
+    double armSpeed = armSpeedSupplier.getAsDouble();
+
+    if (armSpeed < Constants.Arm.ARM_CONTROLLER_DEADZONE && armSpeed > -Constants.Arm.ARM_CONTROLLER_DEADZONE) {
+      armSpeed = 0;
+    }
+
+    arm.setArmSpeed(armSpeed * 0.5);
   }
 
   // Called once the command ends or is interrupted.

@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.team3324.robot;
 
-import frc.robot.arm.Arm;
-import frc.robot.arm.commands.ControlArm;
-import frc.robot.arm.commands.TelescopeArm;
-import frc.robot.drivetrain.Drivetrain;
-import frc.robot.drivetrain.commands.AutoBalance;
-import frc.robot.drivetrain.commands.Drive;
-import frc.robot.intake.Intake;
-import frc.robot.intake.commands.IntakeCone;
-import frc.robot.intake.commands.IntakeCube;
+import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.commands.ControlArm;
+import frc.team3324.robot.arm.commands.TelescopeArm;
+import frc.team3324.robot.drivetrain.Drivetrain;
+import frc.team3324.robot.drivetrain.commands.AutoBalance;
+import frc.team3324.robot.drivetrain.commands.Drive;
+import frc.team3324.robot.intake.Intake;
+import frc.team3324.robot.intake.commands.IntakeCone;
+import frc.team3324.robot.intake.commands.IntakeCube;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -52,8 +52,8 @@ public class RobotContainer {
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
     secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.5));
     secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.5));
-    secondaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
-    secondaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
+    secondaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.5));
+    secondaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.5));
   }
 
   /**
