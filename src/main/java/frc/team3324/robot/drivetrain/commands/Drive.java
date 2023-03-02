@@ -48,7 +48,7 @@ public class Drive extends CommandBase {
       turnSpeed = 0;
     }
 
-    drivetrain.curvatureDrive(throttle, -turnSpeed);
+    drivetrain.curvatureDrive(throttle, -turnSpeed * 0.85);
   }
 
   // Called once the command ends or is interrupted.

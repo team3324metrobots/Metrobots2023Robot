@@ -10,6 +10,7 @@ import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.Drive;
+import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.IntakeCone;
 import frc.team3324.robot.intake.commands.IntakeCube;
@@ -47,13 +48,13 @@ public class RobotContainer {
     // --- DEFAULT COMMANDS ---
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftTriggerAxis, primaryDriver::getRightTriggerAxis, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
-    primaryDriver.y().whileTrue(new AutoBalance(drivetrain));
+    primaryDriver.y().whileTrue(new GyroTurn(drivetrain, 90));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
-    secondaryDriver.rightTrigger().whileTrue(new IntakeCube(intake, 0.5));
-    secondaryDriver.leftTrigger().whileTrue(new IntakeCube(intake, -0.5));
-    secondaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.5));
-    secondaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.5));
+    secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.5));
+    secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.5));
+    secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
+    secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
   }
 
   /**

@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.DifferentialDriveFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -51,14 +52,9 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
-  @Config
-  private double kP = 0.0;
-  @Config
-  private double kI = 0.0;
-  @Config
-  private double kD = 0.0;
-  private PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
-  private PIDController PIDControlPitch = new PIDController(kP, kI, kD);
+  private PIDController PIDControlYaw = new PIDController(0.094628, 0, 0.0039779);
+  private PIDController PIDControlPitch = new PIDController(0, 0, 0);
+  private DifferentialDriveFeedforward FeedforwardDT = new DifferentialDriveFeedforward(0.25279, 0.054265, 0.26285, 0.26285, 9.04);
 
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
@@ -94,11 +90,6 @@ public class Drivetrain extends SubsystemBase {
     lmMotor.setSmartCurrentLimit(40);
     rmMotor.setSecondaryCurrentLimit(40.0);
     lmMotor.setSecondaryCurrentLimit(40.0);
-
-    // PID values for autobalance
-    Preferences.initDouble("AutoBal P", kP);
-    Preferences.initDouble("AutoBal I", kI);
-    Preferences.initDouble("AutoBal D", kD);
 
     setBrakeMode(IdleMode.kBrake);
     resetEncoders();
