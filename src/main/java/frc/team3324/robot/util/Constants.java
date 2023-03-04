@@ -43,7 +43,9 @@ public final class Constants {
   public static class Drivetrain {
     // --- ENCODER AND AUTO CONSTANTS ---
     // gear ratio
-    public static final double DT_GEAR_RATIO = 50.0 / 24.0;
+    public static final double DT_GEAR_RATIO = 24.0 / 50.0;
+
+    public static final double CONVERSION_RATIO = 2.16;
 
     public static final double WHEEL_DIAMETER_METERS = 6.125 / 39.36;
     public static final double CIRCUMFERENCE_METERS = Math.PI * WHEEL_DIAMETER_METERS;
