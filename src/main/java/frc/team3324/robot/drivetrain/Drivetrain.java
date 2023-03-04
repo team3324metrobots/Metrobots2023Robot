@@ -10,19 +10,17 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.DifferentialDriveFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3324.robot.util.Constants;
-import io.github.oblarg.oblog.annotations.Config;
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
@@ -52,12 +50,15 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
 
   // --- PID CONTROL ---
-  private PIDController PIDControlYaw = new PIDController(0.094628, 0, 0.0039779);
+  private PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
   private PIDController PIDControlPitch = new PIDController(0, 0, 0);
-  private DifferentialDriveFeedforward FeedforwardDT = new DifferentialDriveFeedforward(0.25279, 0.054265, 0.26285, 0.26285, 9.04);
-
+  private SimpleMotorFeedforward FeedforwardDT = new SimpleMotorFeedforward(0.59019, 0.038769, 0.0049377);
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
+
+
+  private double currentVelocity = getVelocityMeters();
+  private long currentTime = System.currentTimeMillis();
   
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -152,7 +153,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getVelocity() {
-    return (rEncoder.getVelocity() - lEncoder.getVelocity()) / 2;
+    return (rEncoder.getVelocity() + lEncoder.getVelocity()) / 2;
+  }
+
+  public double getVelocityMeters() {
+    return (getVelocity() * Constants.Drivetrain.CONVERSION_RATIO / 60) * 0.0254;
+  }
+
+  public double getAccelerationMeters() {
+    return (getVelocityMeters() - currentVelocity) / (System.currentTimeMillis() - currentTime);
   }
 
   public AHRS getGyro() {
@@ -209,6 +218,10 @@ public class Drivetrain extends SubsystemBase {
     return PIDControlPitch.atSetpoint();
   }
 
+  public double getFeedforward(double speed) {
+    return FeedforwardDT.calculate(speed);
+  }
+
   public void resetEncoders() {
     lEncoder.setPosition(0.0);
     rEncoder.setPosition(0.0);
@@ -227,10 +240,14 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left Wheel Speed", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right Wheel Speed", getWheelSpeeds().rightMetersPerSecond);
-    SmartDashboard.putNumber("Velocity", getVelocity());
+    SmartDashboard.putNumber("Velocity", getVelocityMeters());
+    SmartDashboard.putNumber("Acceleration", getAccelerationMeters());
 
     SmartDashboard.putNumber("Robot Pitch", getGyroPitch());
     SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
     SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
+
+    currentVelocity = getVelocityMeters();
+    currentTime = System.currentTimeMillis();
   }
 }
