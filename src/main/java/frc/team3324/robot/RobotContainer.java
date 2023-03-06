@@ -7,6 +7,7 @@ package frc.team3324.robot;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.TelescopeArm;
+import frc.team3324.robot.auto.GoToChargingStation;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.Drive;
@@ -64,6 +65,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new GoToChargingStation(drivetrain, arm, intake, drivetrain.getTrajectory());
   }
 }

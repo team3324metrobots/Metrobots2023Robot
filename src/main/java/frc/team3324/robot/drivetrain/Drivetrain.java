@@ -4,18 +4,28 @@
 
 package frc.team3324.robot.drivetrain;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,6 +58,7 @@ public class Drivetrain extends SubsystemBase {
   // --- GYRO ---
   private final AHRS navX = new AHRS(SPI.Port.kMXP);
   private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(-1.0 * navX.getYaw()), lEncoder.getPosition(), rEncoder.getPosition());
+  private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(0.7112);
 
   // --- PID CONTROL ---
   private PIDController PIDControlYaw = new PIDController(0.008, 0.0001, 0.001);
@@ -55,6 +66,10 @@ public class Drivetrain extends SubsystemBase {
   private SimpleMotorFeedforward FeedforwardDT = new SimpleMotorFeedforward(0.59019, 0.038769, 0.0049377);
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
+
+  // --- AUTO TRAJECTORY --- 
+  private String trajectoryJSON = "paths/ChargingStation.wpilib.json";
+  private Trajectory trajectory = new Trajectory(); 
 
 
   private double currentVelocity = getVelocityMeters();
@@ -102,6 +117,14 @@ public class Drivetrain extends SubsystemBase {
     lfMotor.burnFlash();
     lmMotor.burnFlash();
     lbMotor.burnFlash();
+
+    // get trajectory from PathWeaver path, catch exception if the file isn't found
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Can't find file: " + trajectoryJSON + "! It may not have gotten sent over when deploying code, or it doesn't exist.", ex.getStackTrace());
+    }
 
     drive.setSafetyEnabled(true);
   }
@@ -202,6 +225,18 @@ public class Drivetrain extends SubsystemBase {
     return driveOdometry.getPoseMeters();
   }
 
+  public DifferentialDriveKinematics getKinematics() {
+    return this.driveKinematics;
+  }
+
+  public DifferentialDriveOdometry getOdometry() {
+    return this.driveOdometry;
+  }
+
+  public Trajectory getTrajectory() {
+    return this.getTrajectory();
+  }
+
   public double getDistance() {
     return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
   }
@@ -218,8 +253,8 @@ public class Drivetrain extends SubsystemBase {
     return PIDControlPitch.atSetpoint();
   }
 
-  public double getFeedforward(double speed) {
-    return FeedforwardDT.calculate(speed);
+  public SimpleMotorFeedforward getFeedforward() {
+    return this.FeedforwardDT;
   }
 
   public void resetEncoders() {
