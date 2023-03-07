@@ -51,8 +51,8 @@ public class RobotContainer {
     primaryDriver.y().whileTrue(new GyroTurn(drivetrain, 90));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
-    secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.5));
-    secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.5));
+    secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
+    secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
   }

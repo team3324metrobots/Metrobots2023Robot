@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
   }
   public void setConeIntakeSpeed(double speed) {
     intakeMotorConeLeft.set(speed);
-    intakeMotorConeRight.set(speed);
+    intakeMotorConeRight.set(-speed * 1.5);
   }
   public double getPosition() {
     coneEncoderLeft.getPosition();
