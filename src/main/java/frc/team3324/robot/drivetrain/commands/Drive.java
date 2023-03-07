@@ -7,8 +7,6 @@ package frc.team3324.robot.drivetrain.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.team3324.robot.RobotContainer;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.util.Constants;
 

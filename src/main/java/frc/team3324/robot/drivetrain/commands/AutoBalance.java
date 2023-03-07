@@ -25,7 +25,7 @@ public class AutoBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.setPIDPitchTolerance(0.5);;
+    drivetrain.setPIDPitchTolerance(0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,6 +49,11 @@ public class AutoBalance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (drivetrain.pitchAtSetpoint()) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
