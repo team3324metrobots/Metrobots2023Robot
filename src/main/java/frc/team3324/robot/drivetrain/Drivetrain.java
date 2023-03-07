@@ -234,7 +234,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Trajectory getTrajectory() {
-    return this.getTrajectory();
+    return this.trajectory;
   }
 
   public double getDistance() {
@@ -282,7 +282,12 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
     SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
 
+    SmartDashboard.putNumber("Robot X Position", getPose().getX());
+    SmartDashboard.putNumber("Robot Y Position", getPose().getY());
+
     currentVelocity = getVelocityMeters();
     currentTime = System.currentTimeMillis();
+
+    driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
   }
 }

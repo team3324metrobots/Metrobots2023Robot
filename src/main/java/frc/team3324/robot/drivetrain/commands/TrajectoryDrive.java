@@ -13,16 +13,18 @@ import frc.team3324.robot.drivetrain.Drivetrain;
 public class TrajectoryDrive extends CommandBase {
   Drivetrain drivetrain;
   Trajectory trajectory;
+  int waypoint;
 
   RamseteController ramseteController = new RamseteController();
 
 
   /** Creates a new TrajectoryDrive. */
-  public TrajectoryDrive(Drivetrain drivetrain, Trajectory trajectory) {
+  public TrajectoryDrive(Drivetrain drivetrain, Trajectory trajectory, int waypoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     this.drivetrain = drivetrain;
     this.trajectory = trajectory;
+    this.waypoint = waypoint;
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +34,7 @@ public class TrajectoryDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ChassisSpeeds speed = ramseteController.calculate(drivetrain.getPose(), trajectory.sample(3.4));
+    ChassisSpeeds speed = ramseteController.calculate(drivetrain.getPose(), trajectory.getStates().get(waypoint));
     drivetrain.curvatureDrive(speed.vxMetersPerSecond, speed.vyMetersPerSecond);
   }
 
