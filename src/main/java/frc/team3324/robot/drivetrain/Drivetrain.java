@@ -10,12 +10,10 @@ import java.nio.file.Path;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -67,11 +65,6 @@ public class Drivetrain extends SubsystemBase {
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor, rmMotor);
 
-  // --- AUTO TRAJECTORY --- 
-  private String trajectoryJSON = "paths/ChargingStation.wpilib.json";
-  private Trajectory trajectory = new Trajectory(); 
-
-
   private double currentVelocity = getVelocityMeters();
   private long currentTime = System.currentTimeMillis();
   
@@ -118,14 +111,6 @@ public class Drivetrain extends SubsystemBase {
     lmMotor.burnFlash();
     lbMotor.burnFlash();
 
-    // get trajectory from PathWeaver path, catch exception if the file isn't found
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Can't find file: " + trajectoryJSON + "! It may not have gotten sent over when deploying code, or it doesn't exist.", ex.getStackTrace());
-    }
-
     drive.setSafetyEnabled(true);
   }
 
@@ -151,15 +136,9 @@ public class Drivetrain extends SubsystemBase {
     PIDControlPitch.setTolerance(tolerance);
   }
 
-  public void setPitchP(double kP) {
+  public void setPitchPID(double kP, double kI, double kD) {
     PIDControlPitch.setP(kP);
-  }
-
-  public void setPitchI(double kI) {
     PIDControlPitch.setI(kI);
-  }
-
-  public void setPitchD(double kD) {
     PIDControlPitch.setD(kD);
   }
 
@@ -231,10 +210,6 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveOdometry getOdometry() {
     return this.driveOdometry;
-  }
-
-  public Trajectory getTrajectory() {
-    return this.trajectory;
   }
 
   public double getDistance() {

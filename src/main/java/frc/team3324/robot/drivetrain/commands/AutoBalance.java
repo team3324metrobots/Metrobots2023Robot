@@ -31,9 +31,11 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.setPitchP(Preferences.getDouble("AutoBal P", 0.0));
-    drivetrain.setPitchI(Preferences.getDouble("AutoBal I", 0.0));
-    drivetrain.setPitchD(Preferences.getDouble("AutoBal D", 0.0));
+    drivetrain.setPitchPID(
+      Preferences.getDouble("AutoBal P", 0.0),
+      Preferences.getDouble("AutoBal I", 0.0),
+      Preferences.getDouble("AutoBal D", 0.0)
+    );
     SmartDashboard.putNumber("PID Speed", speed);
     speed = drivetrain.getPIDPitchSpeed(setpoint)* 0.25;
     drivetrain.curvatureDrive(-speed, 0); // i have zero clue why speed needs to be negative but it works

@@ -65,6 +65,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new GoToChargingStation(drivetrain, arm, intake, drivetrain.getTrajectory());
+    return new GoToChargingStation(drivetrain, arm, intake, Robot.trajectories.get(0));
   }
 }

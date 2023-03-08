@@ -4,6 +4,14 @@
 
 package frc.team3324.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,6 +28,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private String[] trajectoriesJSON = {
+    "paths/ChargingStation.wpilib.json"
+  };
+  public static List<Trajectory> trajectories;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -32,7 +45,16 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Logger.configureLoggingAndConfig(this, true);
     RobotContainer.drivetrain.resetEncoders();
-    RobotContainer.drivetrain.getGyro().reset();    
+    RobotContainer.drivetrain.getGyro().reset(); 
+    
+    try {
+      for (int i = 0; i < trajectoriesJSON.length; i++) {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoriesJSON[i]);
+        trajectories.add(TrajectoryUtil.fromPathweaverJson(trajectoryPath));
+      }
+    } catch (IOException ex) {
+      DriverStation.reportError("Error loading trajectories into auto, see stack trace for more info", ex.getStackTrace());
+    }
   }
 
   /**
