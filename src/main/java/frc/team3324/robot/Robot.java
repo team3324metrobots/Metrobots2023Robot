@@ -29,7 +29,9 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private String[] trajectoriesJSON = {
-    "paths/ChargingStation.wpilib.json"
+    "paths/ChargingStation.wpilib.json",
+    "paths/GetOnePiece.wpilib.json",
+    "paths/ReverseToGrid.wpilib.json"
   };
   public static List<Trajectory> trajectories;
 
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
     
     try {
       for (int i = 0; i < trajectoriesJSON.length; i++) { 
+        DriverStation.reportWarning("Loading auto trajectory " + trajectoriesJSON[i] + "...", false);
         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoriesJSON[i]);
         trajectories.add(TrajectoryUtil.fromPathweaverJson(trajectoryPath));
       }
