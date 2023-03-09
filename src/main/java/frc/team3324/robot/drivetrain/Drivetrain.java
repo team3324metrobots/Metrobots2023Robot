@@ -122,6 +122,11 @@ public class Drivetrain extends SubsystemBase {
     drive.setMaxOutput(speed);
   }
 
+  public void setOutputVolts(double lV, double rV) {
+    lmMotor.setVoltage(lV);
+    rmMotor.setVoltage(rV);
+  }
+
   public void setPIDYawTolerance(double tolerance) {
     PIDControlYaw.setTolerance(tolerance);
   }
@@ -208,6 +213,10 @@ public class Drivetrain extends SubsystemBase {
 
   public double getDistance() {
     return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
+  }
+
+  public PIDController getPIDYaw() {
+    return this.PIDControlYaw;
   }
 
   public double getPIDYawSpeed(double setpoint) {

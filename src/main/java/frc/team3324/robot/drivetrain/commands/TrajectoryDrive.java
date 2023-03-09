@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.team3324.robot.drivetrain.Drivetrain;
 
 public class TrajectoryDrive extends CommandBase {
@@ -16,6 +17,17 @@ public class TrajectoryDrive extends CommandBase {
   int waypoint;
 
   RamseteController ramseteController = new RamseteController();
+  RamseteCommand ramsete = new RamseteCommand(trajectory, 
+  drivetrain::getPose, 
+  ramseteController, 
+  drivetrain.getFeedforward(), 
+  drivetrain.getKinematics(), 
+  drivetrain::getWheelSpeeds, 
+  drivetrain.getPIDYaw(), 
+  drivetrain.getPIDYaw(), 
+  drivetrain::setOutputVolts, 
+  drivetrain
+  );
 
 
   /** Creates a new TrajectoryDrive. */
