@@ -6,6 +6,7 @@ package frc.team3324.robot;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -33,7 +34,7 @@ public class Robot extends TimedRobot {
     "paths/GetOnePiece.wpilib.json",
     "paths/ReverseToGrid.wpilib.json"
   };
-  public static List<Trajectory> trajectories;
+  public static List<Trajectory> trajectories = new ArrayList<Trajectory>();
 
   /**
    * This function is run when the robot is first started up and should be used for any

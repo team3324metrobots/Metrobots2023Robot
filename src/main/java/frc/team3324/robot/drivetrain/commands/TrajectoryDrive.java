@@ -17,17 +17,17 @@ public class TrajectoryDrive extends CommandBase {
   int waypoint;
 
   RamseteController ramseteController = new RamseteController();
-  RamseteCommand ramsete = new RamseteCommand(trajectory, 
-  drivetrain::getPose, 
-  ramseteController, 
-  drivetrain.getFeedforward(), 
-  drivetrain.getKinematics(), 
-  drivetrain::getWheelSpeeds, 
-  drivetrain.getPIDYaw(), 
-  drivetrain.getPIDYaw(), 
-  drivetrain::setOutputVolts, 
-  drivetrain
-  );
+  // RamseteCommand ramsete = new RamseteCommand(trajectory, 
+  // drivetrain::getPose, 
+  // ramseteController, 
+  // drivetrain.getFeedforward(), 
+  // drivetrain.getKinematics(), 
+  // drivetrain::getWheelSpeeds, 
+  // drivetrain.getPIDYaw(), 
+  // drivetrain.getPIDYaw(), 
+  // drivetrain::setOutputVolts, 
+  // drivetrain
+  // );
 
 
   /** Creates a new TrajectoryDrive. */
