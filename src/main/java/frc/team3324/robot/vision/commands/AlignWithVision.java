@@ -36,6 +36,11 @@ public class AlignWithVision extends CommandBase {
 
     SmartDashboard.putNumber("Target ID", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0));
 
+    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+
+
+    if (tv == 1){
+  
     float Kp = -0.1f;  // Proportional control constant
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
 
@@ -43,6 +48,10 @@ public class AlignWithVision extends CommandBase {
 
     double target = drivetrain.getGyroAngle() - drivetrain.getPIDYawSpeed(steering_adjust);
     drivetrain.curvatureDrive(0, target);
+
+    }
+
+
   }
 
   // Called once the command ends or is interrupted.
