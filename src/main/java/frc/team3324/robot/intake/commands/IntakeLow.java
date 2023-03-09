@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.intake.Intake;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class IntakeCone extends CommandBase {
+public class IntakeLow extends CommandBase {
   Intake intake;
   double speed;
   
@@ -16,7 +16,7 @@ public class IntakeCone extends CommandBase {
   double conePosition;
 
   /** Creates a new RunIntake. */
-  public IntakeCone(Intake intake, double speed) {
+  public IntakeLow(Intake intake, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
     this.intake = intake;
@@ -30,14 +30,14 @@ public class IntakeCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setConeIntakeSpeed(speed);
-    conePosition = intake.getConePosition();
+    intake.setLowIntakeSpeed(speed);
+    conePosition = intake.getLowPosition();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.setConeIntakeSpeed(0);
+    intake.setLowIntakeSpeed(0);
   }
 
   // Returns true when the command should end.

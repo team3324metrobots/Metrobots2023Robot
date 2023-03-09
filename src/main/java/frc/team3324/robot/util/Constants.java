@@ -22,8 +22,8 @@ package frc.team3324.robot.util;
  *  - 10: Telescope arm
  * 11-13: Intake
  *  - 11: Cube intake
- *  - 12: Left Cone intake
- *  - 13: Right Cone intake
+ *  - 12: Cone intake
+ *  - 13: Low intake
  */
 public final class Constants {
   public static class Arm {
@@ -36,8 +36,8 @@ public final class Constants {
 
   public static class Intake {
     public static final int INTAKE_MOTOR_CUBE = 11;
-    public static final int INTAKE_MOTOR_CONE_LEFT = 12;
-    public static final int INTAKE_MOTOR_CONE_RIGHT = 13;
+    public static final int INTAKE_MOTOR_CONE = 12;
+    public static final int INTAKE_MOTOR_LOW = 13;
   }
 
   public static class Drivetrain {

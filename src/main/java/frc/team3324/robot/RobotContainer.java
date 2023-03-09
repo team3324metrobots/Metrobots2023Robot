@@ -15,6 +15,7 @@ import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.IntakeCone;
 import frc.team3324.robot.intake.commands.IntakeCube;
+import frc.team3324.robot.intake.commands.IntakeLow;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -56,6 +57,8 @@ public class RobotContainer {
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.5));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+    secondaryDriver.start().whileTrue(new IntakeLow(intake, -0.5));
+    secondaryDriver.back().whileTrue(new IntakeLow(intake, 0.5));
   }
 
   /**
