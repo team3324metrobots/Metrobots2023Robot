@@ -44,11 +44,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     Logger.configureLoggingAndConfig(this, true);
-    RobotContainer.drivetrain.resetEncoders();
-    RobotContainer.drivetrain.getGyro().reset(); 
     
     try {
-      for (int i = 0; i < trajectoriesJSON.length; i++) {
+      for (int i = 0; i < trajectoriesJSON.length; i++) { 
         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoriesJSON[i]);
         trajectories.add(TrajectoryUtil.fromPathweaverJson(trajectoryPath));
       }

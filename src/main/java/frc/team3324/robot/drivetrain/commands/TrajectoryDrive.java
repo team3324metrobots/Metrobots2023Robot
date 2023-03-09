@@ -35,7 +35,7 @@ public class TrajectoryDrive extends CommandBase {
   @Override
   public void execute() {
     ChassisSpeeds speed = ramseteController.calculate(drivetrain.getPose(), trajectory.getStates().get(waypoint));
-    drivetrain.curvatureDrive(speed.vxMetersPerSecond, speed.vyMetersPerSecond);
+    drivetrain.curvatureDrive(speed.vxMetersPerSecond, speed.omegaRadiansPerSecond);
   }
 
   // Called once the command ends or is interrupted.

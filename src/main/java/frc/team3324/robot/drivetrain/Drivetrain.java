@@ -102,6 +102,7 @@ public class Drivetrain extends SubsystemBase {
 
     setBrakeMode(IdleMode.kBrake);
     resetEncoders();
+    navX.reset();
 
     // burn flash all changes made so they stick
     rfMotor.burnFlash();

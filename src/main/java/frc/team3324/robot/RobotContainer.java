@@ -34,7 +34,7 @@ public class RobotContainer {
 
   // --- INITIALIZE SUBSYSTEMS ---
   private static Arm arm = new Arm();
-  public static Drivetrain drivetrain = new Drivetrain();
+  private static Drivetrain drivetrain = new Drivetrain();
   private static Intake intake = new Intake();
 
   private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
