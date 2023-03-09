@@ -5,28 +5,36 @@
 package frc.team3324.robot.vision.commands;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.drivetrain.Drivetrain;
+import frc.team3324.robot.vision.Vision;
 
 public class AlignWithVision extends CommandBase {
+  Vision vision;
   Drivetrain drivetrain;
 
   /** Creates a new AlignWithVision. */
-  public AlignWithVision(Drivetrain drivetrain) {
+  public AlignWithVision(Vision vision, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(vision, drivetrain);
     this.drivetrain = drivetrain;
+    this.vision = vision;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    SmartDashboard.putNumber("Target ID", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0));
 
     float Kp = -0.1f;  // Proportional control constant
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
