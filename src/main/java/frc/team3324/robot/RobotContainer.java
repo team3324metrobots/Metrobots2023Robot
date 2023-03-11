@@ -15,8 +15,11 @@ import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.IntakeCone;
 import frc.team3324.robot.intake.commands.IntakeCube;
+import frc.team3324.robot.intake.commands.IntakeLower;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
@@ -56,6 +59,8 @@ public class RobotContainer {
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+    secondaryDriver.a().whileTrue(new IntakeLower(intake, 0.5));
+    secondaryDriver.b().whileTrue(new IntakeLower(intake, -0.5));
   }
 
   /**
@@ -65,6 +70,19 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new GoToChargingStation(drivetrain, arm, intake, Robot.trajectories.get(0));
+    RamseteCommand ramsete = new RamseteCommand(
+      Robot.trajectories.get(0), 
+      drivetrain::getPose, 
+      new RamseteController(), 
+      drivetrain.getFeedforward(), 
+      drivetrain.getKinematics(), 
+      drivetrain::getWheelSpeeds, 
+      drivetrain.getPIDYaw(), 
+      drivetrain.getPIDYaw(), 
+      drivetrain::setOutputVolts, 
+      drivetrain
+    );
+
+    return ramsete.andThen(new GoToChargingStation(drivetrain, arm, intake, Robot.trajectories.get(0)));
   }
 }

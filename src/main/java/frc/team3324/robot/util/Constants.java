@@ -24,6 +24,7 @@ package frc.team3324.robot.util;
  *  - 11: Cube intake
  *  - 12: Left Cone intake
  *  - 13: Right Cone intake
+ *  - 14: Lower intake
  */
 public final class Constants {
   public static class Arm {
@@ -38,6 +39,7 @@ public final class Constants {
     public static final int INTAKE_MOTOR_CUBE = 11;
     public static final int INTAKE_MOTOR_CONE_LEFT = 12;
     public static final int INTAKE_MOTOR_CONE_RIGHT = 13;
+    public static final int INTAKE_MOTOR_LOWER = 14;
   }
 
   public static class Drivetrain {
