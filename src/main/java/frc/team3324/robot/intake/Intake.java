@@ -6,6 +6,7 @@ package frc.team3324.robot.intake;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,7 @@ public class Intake extends SubsystemBase {
   private static final CANSparkMax intakeMotorCube = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CUBE, MotorType.kBrushless);
   private static final CANSparkMax intakeMotorConeLeft = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CONE_LEFT, MotorType.kBrushless);
   private static final CANSparkMax intakeMotorConeRight = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_CONE_RIGHT, MotorType.kBrushless);
+  private static final CANSparkMax intakeMotorLower = new CANSparkMax(Constants.Intake.INTAKE_MOTOR_LOWER, MotorType.kBrushless);
   private static final RelativeEncoder coneEncoderLeft = intakeMotorConeLeft.getEncoder();
   private static final RelativeEncoder coneEncoderRight = intakeMotorConeRight.getEncoder();
   
@@ -26,10 +28,20 @@ public class Intake extends SubsystemBase {
   public void setCubeIntakeSpeed(double speed) {
     intakeMotorCube.set(speed);
   }
+
+  public void setLowerIntakeSpeed(double speed) {
+    intakeMotorLower.set(speed);
+  }
+
+  public void setLowerBrakeMode(IdleMode brakeMode) {
+    intakeMotorLower.setIdleMode(brakeMode);
+  }
+
   public void setConeIntakeSpeed(double speed) {
     intakeMotorConeLeft.set(speed);
     intakeMotorConeRight.set(-speed * 1.5);
   }
+
   public double getPosition() {
     coneEncoderLeft.getPosition();
     return coneEncoderRight.getPosition();

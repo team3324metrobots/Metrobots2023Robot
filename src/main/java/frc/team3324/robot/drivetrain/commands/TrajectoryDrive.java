@@ -16,18 +16,7 @@ public class TrajectoryDrive extends CommandBase {
   Trajectory trajectory;
   int waypoint;
 
-  RamseteController ramseteController = new RamseteController();
-  // RamseteCommand ramsete = new RamseteCommand(trajectory, 
-  // drivetrain::getPose, 
-  // ramseteController, 
-  // drivetrain.getFeedforward(), 
-  // drivetrain.getKinematics(), 
-  // drivetrain::getWheelSpeeds, 
-  // drivetrain.getPIDYaw(), 
-  // drivetrain.getPIDYaw(), 
-  // drivetrain::setOutputVolts, 
-  // drivetrain
-  // );
+  
 
 
   /** Creates a new TrajectoryDrive. */
@@ -46,8 +35,7 @@ public class TrajectoryDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ChassisSpeeds speed = ramseteController.calculate(drivetrain.getPose(), trajectory.getStates().get(waypoint));
-    drivetrain.curvatureDrive(speed.vxMetersPerSecond, speed.omegaRadiansPerSecond);
+    
   }
 
   // Called once the command ends or is interrupted.
