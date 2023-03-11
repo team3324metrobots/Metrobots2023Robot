@@ -31,16 +31,22 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.setPitchPID(
-      Preferences.getDouble("AutoBal P", 0.0),
-      Preferences.getDouble("AutoBal I", 0.0),
-      Preferences.getDouble("AutoBal D", 0.0)
-    );
-    SmartDashboard.putNumber("PID Speed", speed);
-    speed = drivetrain.getPIDPitchSpeed(setpoint)* 0.25;
-    drivetrain.curvatureDrive(-speed, 0); // i have zero clue why speed needs to be negative but it works
-    if (drivetrain.pitchAtSetpoint()) {
-      drivetrain.curvatureDrive(0, 0);
+    // drivetrain.setPitchPID(
+    //   Preferences.getDouble("AutoBal P", 0.0),
+    //   Preferences.getDouble("AutoBal I", 0.0),
+    //   Preferences.getDouble("AutoBal D", 0.0)
+    // );
+    // SmartDashboard.putNumber("PID Speed", speed);
+    // speed = drivetrain.getPIDPitchSpeed(setpoint)* 0.25;
+    // drivetrain.curvatureDrive(-speed, 0); // i have zero clue why speed needs to be negative but it works
+    // if (drivetrain.pitchAtSetpoint()) {
+    //   drivetrain.curvatureDrive(0, 0);
+    // }
+    if (drivetrain.getGyroPitch() > 0.05) {
+      drivetrain.curvatureDrive(0.1, 0);
+    }
+    else if (drivetrain.getGyroPitch() < -0.05) {
+      drivetrain.curvatureDrive(-0.1, 0);
     }
   }
 
@@ -51,7 +57,7 @@ public class AutoBalance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (drivetrain.pitchAtSetpoint()) {
+    if (drivetrain.getGyroPitch() < 0.05 && drivetrain.getGyroPitch() > -0.05) {
       return true;
     }
     else {

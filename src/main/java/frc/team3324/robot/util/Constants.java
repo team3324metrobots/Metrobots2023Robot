@@ -62,5 +62,10 @@ public final class Constants {
     public static final int L_BACK_MOTOR = 2;
 
     public static final double CONTROLLER_DEADZONE = 0.12;
+
+    // --- PID ---
+    public static final double DriveStraight_P = 0.28;
+    public static final double DriveStraight_I = 0.03;
+    public static final double DriveStraight_D = 0.0;
   }
 }

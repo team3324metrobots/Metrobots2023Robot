@@ -57,6 +57,11 @@ public class TrajectoryDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (drivetrain.getPose() == trajectory.getStates().get(waypoint).poseMeters) {
+      return true;
+    }
+    else {
+      return false;
+    }  
   }
 }
