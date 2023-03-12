@@ -11,6 +11,7 @@ import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.vision.Vision;
 
 public class AlignWithVision extends CommandBase {
+  
   Vision vision;
   Drivetrain drivetrain;
 
@@ -38,9 +39,8 @@ public class AlignWithVision extends CommandBase {
 
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
 
-
     if (tv == 1){
-  
+
     float Kp = -0.1f;  // Proportional control constant
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
 
@@ -50,8 +50,6 @@ public class AlignWithVision extends CommandBase {
     drivetrain.curvatureDrive(0, target);
 
     }
-
-
   }
 
   // Called once the command ends or is interrupted.

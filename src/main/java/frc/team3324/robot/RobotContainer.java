@@ -17,6 +17,7 @@ import frc.team3324.robot.intake.commands.IntakeCone;
 import frc.team3324.robot.intake.commands.IntakeCube;
 import frc.team3324.robot.vision.Vision;
 import frc.team3324.robot.vision.commands.AlignWithVision;
+import frc.team3324.robot.vision.commands.MoveArmWithVision;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -55,6 +56,7 @@ public class RobotContainer {
     primaryDriver.y().whileTrue(new GyroTurn(drivetrain, 90));
 
     primaryDriver.b().whileTrue(new AlignWithVision(vision, drivetrain));
+    primaryDriver.a().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
