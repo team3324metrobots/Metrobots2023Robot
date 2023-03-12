@@ -6,10 +6,10 @@ package frc.team3324.robot;
 
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.commands.ControlArm;
-import frc.team3324.robot.arm.commands.TelescopeArm;
+// import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.auto.GoToChargingStation;
 import frc.team3324.robot.drivetrain.Drivetrain;
-import frc.team3324.robot.drivetrain.commands.AutoBalance;
+// import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
@@ -18,7 +18,7 @@ import frc.team3324.robot.intake.commands.IntakeCube;
 import frc.team3324.robot.vision.Vision;
 import frc.team3324.robot.vision.commands.AlignWithVision;
 import frc.team3324.robot.vision.commands.MoveArmWithVision;
-import edu.wpi.first.networktables.NetworkTableInstance;
+// import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -41,7 +41,7 @@ public class RobotContainer {
   private static Intake intake = new Intake();
   private static Vision vision = new Vision();
 
-  private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
+  // private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

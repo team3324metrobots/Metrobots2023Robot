@@ -35,6 +35,7 @@ public class MoveArmWithVision extends CommandBase {
 
   final CANSparkMax rMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_R, MotorType.kBrushless);
   final CANSparkMax teleMotor = new CANSparkMax(Constants.Arm.TELESCOPE_MOTOR, MotorType.kBrushless);
+  
 
   // Called when the command is initially scheduled.
   @Override
