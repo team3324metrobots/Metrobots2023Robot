@@ -64,7 +64,6 @@ public class MoveArmWithVision extends CommandBase {
       double rotationSpeed = 0.5 * targetAngle;
       rMotor.set(rotationSpeed);
 
-
       // Use proportional control to extend or contract the arm towards the target
       double extensionSpeed = 0.1 * targetDistance;
       teleMotor.set(extensionSpeed);
