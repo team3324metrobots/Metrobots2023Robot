@@ -47,6 +47,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    Vision.DisplayVisionValues();
   }
 
   private void configureBindings() {
@@ -54,15 +55,14 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftTriggerAxis, primaryDriver::getRightTriggerAxis, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
     primaryDriver.y().whileTrue(new GyroTurn(drivetrain, 90));
-
     primaryDriver.b().whileTrue(new AlignWithVision(vision, drivetrain));
     primaryDriver.a().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
-    // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
-    // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+    // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
+    // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
   }
 
   /**
