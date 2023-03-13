@@ -6,10 +6,8 @@ package frc.team3324.robot;
 
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.commands.ControlArm;
-// import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.auto.GoToChargingStation;
 import frc.team3324.robot.drivetrain.Drivetrain;
-// import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
@@ -18,9 +16,11 @@ import frc.team3324.robot.intake.commands.IntakeCube;
 import frc.team3324.robot.vision.Vision;
 import frc.team3324.robot.vision.commands.AlignWithVision;
 import frc.team3324.robot.vision.commands.MoveArmWithVision;
-// import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+// import frc.team3324.robot.arm.commands.TelescopeArm;
+// import edu.wpi.first.networktables.NetworkTableInstance;
+// import frc.team3324.robot.drivetrain.commands.AutoBalance;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
@@ -48,6 +49,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     Vision.DisplayVisionValues();
+
   }
 
   private void configureBindings() {
@@ -63,6 +65,7 @@ public class RobotContainer {
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
+
   }
 
   /**
@@ -73,5 +76,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return new GoToChargingStation(drivetrain, arm, intake, Robot.trajectories.get(0));
+
   }
 }
