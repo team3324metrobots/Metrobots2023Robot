@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3324.robot.util.Constants;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
@@ -211,8 +212,9 @@ public class Drivetrain extends SubsystemBase {
     return this.driveOdometry;
   }
 
+  @Log
   public double getDistance() {
-    return this.getDistance() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
+    return this.getPosition() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
   }
 
   public PIDController getPIDYaw() {

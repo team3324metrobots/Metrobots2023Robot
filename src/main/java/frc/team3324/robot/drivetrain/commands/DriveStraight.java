@@ -47,7 +47,7 @@ public class DriveStraight extends CommandBase {
 
         SmartDashboard.putNumber("Distance Speed", speed);
 
-        drivetrain.curvatureDrive(0.0, (-1.0 * speed));
+        drivetrain.curvatureDrive((1.0 * speed  ), 0.0);
     }
 
     @Override
