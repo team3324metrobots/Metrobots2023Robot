@@ -7,6 +7,7 @@ package frc.team3324.robot.auto;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.team3324.robot.drivetrain.commands.AutoBalance;
+import frc.team3324.robot.drivetrain.commands.DriveStraight;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.TrajectoryDrive;
@@ -22,8 +23,8 @@ public class GoToChargingStation extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand())
 
     addCommands(
-      new TrajectoryDrive(drivetrain, trajectory, 1),
-      new AutoBalance(drivetrain)
+      new DriveStraight(drivetrain, 5)
+      // new AutoBalance(drivetrain)
     );
   }
 }
