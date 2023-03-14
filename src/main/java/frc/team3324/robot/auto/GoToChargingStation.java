@@ -23,7 +23,7 @@ public class GoToChargingStation extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand())
 
     addCommands(
-      new DriveStraight(drivetrain, 5)
+      new DriveStraight(drivetrain, 1.5).withTimeout(2.1)
       // new AutoBalance(drivetrain)
     );
   }
