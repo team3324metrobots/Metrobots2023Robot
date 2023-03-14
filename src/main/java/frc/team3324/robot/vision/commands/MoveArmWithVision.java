@@ -33,8 +33,6 @@ public class MoveArmWithVision extends CommandBase {
     this.arm = arm;
   }
 
-  final CANSparkMax rMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_R, MotorType.kBrushless);
-  final CANSparkMax teleMotor = new CANSparkMax(Constants.Arm.TELESCOPE_MOTOR, MotorType.kBrushless);
   
 
   // Called when the command is initially scheduled.
@@ -62,20 +60,19 @@ public class MoveArmWithVision extends CommandBase {
 
       // Use proportional control to rotate the arm towards the target
       double rotationSpeed = 0.5 * targetAngle;
-      rMotor.set(rotationSpeed);
+      arm.setArmSpeed(rotationSpeed);
 
       // Use proportional control to extend or contract the arm towards the target
       double extensionSpeed = 0.1 * targetDistance;
-      teleMotor.set(extensionSpeed);
+      arm.setTeleSpeed(extensionSpeed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-
-
+    arm.setArmSpeed(0);
+    arm.setTeleSpeed(0);
   }
 
   // Returns true when the command should end.

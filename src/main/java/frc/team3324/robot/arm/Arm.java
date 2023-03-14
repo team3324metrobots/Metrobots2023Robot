@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
   // --- GETTERS & SETTERS ---
 
   public void setArmSpeed(double speed) {
-    lMotor.set(speed);
+    lMotor.set(-speed);
   }
 
   public void setTeleSpeed(double speed) {
