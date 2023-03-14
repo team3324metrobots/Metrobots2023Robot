@@ -6,6 +6,7 @@ package frc.team3324.robot;
 
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.commands.ControlArm;
+import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.auto.GoToChargingStation;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
@@ -63,6 +64,8 @@ public class RobotContainer {
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+    secondaryDriver.b().whileTrue(new TelescopeArm(arm, 1.0));
+    secondaryDriver.a().whileTrue(new TelescopeArm(arm, -1.0));
     // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
     // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
 
