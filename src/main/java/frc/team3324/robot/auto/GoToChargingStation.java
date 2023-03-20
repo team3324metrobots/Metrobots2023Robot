@@ -6,11 +6,9 @@ package frc.team3324.robot.auto;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.DriveStraight;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.Drivetrain;
-import frc.team3324.robot.drivetrain.commands.TrajectoryDrive;
 import frc.team3324.robot.intake.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

@@ -4,6 +4,11 @@
 
 package frc.team3324.robot.util;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
+
 /**
  * ------ CAN ID KEY ------
  * 2-7: Drivetrain
@@ -35,9 +40,8 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int INTAKE_MOTOR_CUBE = 11;
-    public static final int INTAKE_MOTOR_CONE_LEFT = 12;
-    public static final int INTAKE_MOTOR_CONE_RIGHT = 13;
+    public static final CANSparkMax INTAKE_MOTOR_CUBE = new CANSparkMax(11, MotorType.kBrushless);
+    public static final CANSparkMax INTAKE_MOTOR_CONE = new CANSparkMax(12, MotorType.kBrushless);
   }
 
   public static class Drivetrain {
@@ -49,23 +53,26 @@ public final class Constants {
 
     public static final double WHEEL_DIAMETER_METERS = 6.125 / 39.36;
     public static final double CIRCUMFERENCE_METERS = Math.PI * WHEEL_DIAMETER_METERS;
-
-    // --- DRIVETRAIN MOTORS ---
-    // right side
-    public static final int R_FRONT_MOTOR = 7;
-    public static final int R_MIDDLE_MOTOR = 6;
-    public static final int R_BACK_MOTOR = 5;
-
-    // left side
-    public static final int L_FRONT_MOTOR = 4;
-    public static final int L_MIDDLE_MOTOR = 3;
-    public static final int L_BACK_MOTOR = 2;
-
-    public static final double CONTROLLER_DEADZONE = 0.12;
-
+    
     // --- PID ---
+    public static final double SmartMotion_P = 0.008;
+    public static final double SmartMotion_I = 0;
+    public static final double SmartMotion_D = 0.001;
+    public static final double SmartMotion_F = 0.38769;
     public static final double DriveStraight_P = 0.28;
     public static final double DriveStraight_I = 0.03;
     public static final double DriveStraight_D = 0.0;
+ 
+    // --- DRIVETRAIN MOTORS ---
+    // right side
+    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F );
+    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+    // left side
+    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+    
+    public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }

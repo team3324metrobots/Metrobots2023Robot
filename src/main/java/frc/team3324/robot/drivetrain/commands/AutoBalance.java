@@ -4,8 +4,6 @@
 
 package frc.team3324.robot.drivetrain.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.drivetrain.Drivetrain;
 

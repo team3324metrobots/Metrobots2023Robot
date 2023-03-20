@@ -8,7 +8,6 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -21,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
 import frc.team3324.robot.util.Constants;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -34,14 +34,13 @@ public class Drivetrain extends SubsystemBase {
    * lmMotor = left middle motor
    * lbMotor = left back motor
    */
-  // right side
-  private final static CANSparkMax rfMotor = new CANSparkMax(Constants.Drivetrain.R_FRONT_MOTOR, MotorType.kBrushless);
-  private final static CANSparkMax rmMotor = new CANSparkMax(Constants.Drivetrain.R_MIDDLE_MOTOR, MotorType.kBrushless);
-  private final static CANSparkMax rbMotor = new CANSparkMax(Constants.Drivetrain.R_BACK_MOTOR, MotorType.kBrushless);
-  // left side
-  private final static CANSparkMax lfMotor = new CANSparkMax(Constants.Drivetrain.L_FRONT_MOTOR, MotorType.kBrushless);
-  private final static CANSparkMax lmMotor = new CANSparkMax(Constants.Drivetrain.L_MIDDLE_MOTOR, MotorType.kBrushless);
-  private final static CANSparkMax lbMotor = new CANSparkMax(Constants.Drivetrain.L_BACK_MOTOR, MotorType.kBrushless);
+
+  private static SmartMotionSparkMAX rfMotor = Constants.Drivetrain.RIGHT_FRONT_MOTOR;
+  private static SmartMotionSparkMAX rmMotor = Constants.Drivetrain.RIGHT_MIDDLE_MOTOR;
+  private static SmartMotionSparkMAX rbMotor = Constants.Drivetrain.RIGHT_BACK_MOTOR;
+  private static SmartMotionSparkMAX lfMotor = Constants.Drivetrain.LEFT_FRONT_MOTOR;
+  private static SmartMotionSparkMAX lmMotor = Constants.Drivetrain.LEFT_MIDDLE_MOTOR;
+  private static SmartMotionSparkMAX lbMotor = Constants.Drivetrain.LEFT_BACK_MOTOR;
 
   // --- ENCODERS ---
   private static RelativeEncoder rEncoder = rmMotor.getEncoder();
@@ -85,14 +84,18 @@ public class Drivetrain extends SubsystemBase {
     rbMotor.setInverted(true);
 
     // ramp rate (BE CAREFUL WHEN CHANGING)
+    rfMotor.setOpenLoopRampRate(0.25);
     rmMotor.setOpenLoopRampRate(0.25);
+    rbMotor.setOpenLoopRampRate(0.25);
+    lbMotor.setOpenLoopRampRate(0.25);
     lmMotor.setOpenLoopRampRate(0.25);
-    
-    // current limits (DO NOT CHANGE NO MATTER WHAT UNLESS YOU WANT A SMOKING NEO)
-    rmMotor.setSmartCurrentLimit(40);
-    lmMotor.setSmartCurrentLimit(40);
-    rmMotor.setSecondaryCurrentLimit(40.0);
-    lmMotor.setSecondaryCurrentLimit(40.0);
+    lfMotor.setOpenLoopRampRate(0.25);
+    rbMotor.setClosedLoopRampRate(0.25);
+    rmMotor.setClosedLoopRampRate(0.25);
+    rfMotor.setClosedLoopRampRate(0.25);
+    lbMotor.setClosedLoopRampRate(0.25);
+    lmMotor.setClosedLoopRampRate(0.25);
+    lfMotor.setClosedLoopRampRate(0.25);
 
     setBrakeMode(IdleMode.kBrake);
     resetEncoders();
