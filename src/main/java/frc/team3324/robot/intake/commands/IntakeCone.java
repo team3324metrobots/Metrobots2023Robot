@@ -31,7 +31,6 @@ public class IntakeCone extends CommandBase {
   @Override
   public void execute() {
     intake.setConeIntakeSpeed(speed);
-    conePosition = intake.getPosition();
   }
 
   // Called once the command ends or is interrupted.

@@ -4,13 +4,10 @@
 
 package frc.team3324.robot.vision.commands;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.Drivetrain;
-import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.vision.Vision;
 
 public class MoveArmWithVision extends CommandBase {  
