@@ -1,4 +1,4 @@
-package frc.ExternalLib.NorthwoodLib.NorthwoodDrivers;
+package frc.team6300.NorthwoodDrivers;
 
 import org.littletonrobotics.junction.AutoLog;
 
