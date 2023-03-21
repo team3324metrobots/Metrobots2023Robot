@@ -49,7 +49,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    Vision.DisplayVisionValues();
+   
 
   }
 
@@ -78,7 +78,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new GoToChargingStation(drivetrain, arm, intake, Robot.trajectories.get(0));
+    return null;
 
   }
 }

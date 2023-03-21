@@ -31,6 +31,8 @@ import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
  *  - 13: Right Cone intake
  */
 public final class Constants {
+  public static final boolean tuningMode = true;
+  public static double loopPeriodSeconds = 0.02;
   public static class Arm {
     public static final int ARM_MOTOR_L = 8;
     public static final int ARM_MOTOR_R = 9;
