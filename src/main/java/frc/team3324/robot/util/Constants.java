@@ -7,7 +7,12 @@ package frc.team3324.robot.util;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.util.Units;
 import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
+import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
 /**
  * ------ CAN ID KEY ------
@@ -39,6 +44,8 @@ public final class Constants {
     public static final int TELESCOPE_MOTOR = 10;
 
     public static final double ARM_CONTROLLER_DEADZONE = 0.5;
+
+    
   }
 
   public static class Intake {
@@ -55,7 +62,18 @@ public final class Constants {
 
     public static final double WHEEL_DIAMETER_METERS = 6.125 / 39.36;
     public static final double CIRCUMFERENCE_METERS = Math.PI * WHEEL_DIAMETER_METERS;
+
+    public static final double TrackWidth = Units.inchesToMeters(33);
     
+    // --- RAMSETE D and Zeta Values -- 
+    // find with SysID
+
+    public static final double ramseteD = 0.0; 
+    public static final double ramseteZ = 0.0;
+
+
+    
+
     // --- PID ---
     public static final double SmartMotion_P = 0.008;
     public static final double SmartMotion_I = 0;
@@ -67,14 +85,16 @@ public final class Constants {
  
     // --- DRIVETRAIN MOTORS ---
     // right side
-    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
-    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F );
-    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
-    // left side
-    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
-    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
-    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, MotorType.kBrushless, 40, 0.25, SmartMotion_P, SmartMotion_I, SmartMotion_D, SmartMotion_F);
+   
     
+    public final static LoggedNeo RIGHT_FRONT_MOTOR = new LoggedNeo(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo RIGHT_MIDDLE_MOTOR = new LoggedNeo(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+   
+    // left side
+    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }
