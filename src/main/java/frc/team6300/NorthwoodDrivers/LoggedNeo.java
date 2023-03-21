@@ -98,6 +98,15 @@ public class LoggedNeo implements LoggedMotor{
     
     }
 
+    public void configureRampRate(double closedRampRate, double openRampRate){
+      motor.setOpenLoopRampRate(openRampRate);
+      motor.setClosedLoopRampRate(closedRampRate);
+    }
+    public void configureRampRate(double rampRate){
+      motor.setOpenLoopRampRate(rampRate);
+      motor.setClosedLoopRampRate(rampRate);
+    }
+
     public double getCurrentAmps(){
       return motor.getOutputCurrent();
     }
