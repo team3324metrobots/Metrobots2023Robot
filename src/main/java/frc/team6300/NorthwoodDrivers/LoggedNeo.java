@@ -25,10 +25,26 @@ public class LoggedNeo implements LoggedMotor{
       motor.enableVoltageCompensation(12.0);
       motor.setSmartCurrentLimit(currentLimit);
       controller.setFeedbackDevice(encoder);
-      encoder.setPositionConversionFactor(gearRatio);
+      encoder.setPositionConversionFactor(gearRatio/60);
       encoder.setMeasurementPeriod(8);
+      motor.burnFlash();
 
   } 
+  public LoggedNeo(int motorID, boolean motorInvert, int currentLimit, double ratio){
+    this.gearRatio = ratio;
+    this.motor = new CANSparkMax(motorID, MotorType.kBrushless);
+    this.controller = this.motor.getPIDController();
+    this.encoder = motor.getEncoder();
+    this.motor.setInverted(motorInvert);
+    this.motor.enableVoltageCompensation(12.0);
+    this.motor.setSmartCurrentLimit(currentLimit);
+    this.controller.setFeedbackDevice(encoder);
+    this.encoder.setPositionConversionFactor(gearRatio);
+    this.encoder.setVelocityConversionFactor(gearRatio/60);
+    this.encoder.setMeasurementPeriod(8);
+    motor.burnFlash();
+
+} 
     @Override
     public void updateInputs(LoggedMotorIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(
@@ -60,6 +76,12 @@ public class LoggedNeo implements LoggedMotor{
     }
     public void setPercentOutput(double percent){
       motor.set(percent);
+    }
+    public void setSlave(CANSparkMax leader){
+      motor.follow(leader);
+    }
+    public CANSparkMax getMotorObject(){
+      return this.motor;
     }
     @Override
     public void configurePID(double kP, double kI, double kD, double ff, int slotID) {

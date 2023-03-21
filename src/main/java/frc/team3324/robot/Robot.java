@@ -9,14 +9,29 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.littletonrobotics.junction.LoggedRobot;
+
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import io.github.oblarg.oblog.Logger;
+import frc.team3324.robot.util.Constants;
+import frc.team6300.MechADrivers.Alert;
+import frc.team6300.MechADrivers.VirtualSubsystem;
+import frc.team6300.MechADrivers.Alert.AlertType;
+
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,66 +39,111 @@ import io.github.oblarg.oblog.Logger;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
-  private String[] trajectoriesJSON = {
-    "paths/ChargingStation.wpilib.json",
-    "paths/GetOnePiece.wpilib.json",
-    "paths/ReverseToGrid.wpilib.json"
-  };
-  public static List<Trajectory> trajectories = new ArrayList<Trajectory>();
+  public enum RobotState {
+    DISABLED, AUTONOMOUS, TELEOP, TEST
+  }
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  private final Alert logNoFileAlert =
+  new Alert("No log path set for current robot. Data will NOT be logged.", AlertType.WARNING);
+  private final Alert logReceiverQueueAlert =
+  new Alert("Logging queue exceeded capacity, data will NOT be logged.", AlertType.ERROR);
 
-  @Override
-  public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-    Logger.configureLoggingAndConfig(this, true);
-    
-    try {
-      for (int i = 0; i < trajectoriesJSON.length; i++) { 
-        DriverStation.reportWarning("Loading auto trajectory " + trajectoriesJSON[i] + "...", false);
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoriesJSON[i]);
-        trajectories.add(TrajectoryUtil.fromPathweaverJson(trajectoryPath));
-      }
-    } catch (IOException ex) {
-      DriverStation.reportError("Error loading trajectories into auto, see stack trace for more info", ex.getStackTrace());
-    }
+  public static RobotState s_robot_state = RobotState.DISABLED;
+
+  public static RobotState getState() {
+    return s_robot_state;
+  }
+
+  public static void setState(final RobotState state) {
+    s_robot_state = state;  
+  }
+  public Robot() {
+    super(Constants.loopPeriodSeconds);
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is run when the robot is first started up and should be used
+   * for any
+   * initialization code.
+   */
+  @Override
+  public void robotInit() {
+    Logger logger = Logger.getInstance();
+
+   
+    logger.recordMetadata("TuningMode", Boolean.toString(Constants.tuningMode));
+    logger.recordMetadata("RuntimeType", getRuntimeType().toString());
+
+    logger.addDataReceiver(new NT4Publisher());
+   
+    
+  
+
+    logger.start(); 
+   
+
+    
+
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
+    // autonomous chooser on the dashboard. 
+    m_robotContainer = new RobotContainer();
+    
+  }
+  /**
+   * This function is called every 20 ms, no matter the mode. Use this for items
+   * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and
    * SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    VirtualSubsystem.periodicAll();
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    Logger.updateEntries();
+        // Log list of NT clients
+    List<String> clientNames = new ArrayList<>();
+    List<String> clientAddresses = new ArrayList<>();
+    for (var client : NetworkTableInstance.getDefault().getConnections()) {
+      clientNames.add(client.remote_id);
+      clientAddresses.add(client.remote_ip);
+    }
+    Logger.getInstance()
+        .recordOutput("NTClients/Names", clientNames.toArray(new String[clientNames.size()]));
+    Logger.getInstance()
+        .recordOutput(
+            "NTClients/Addresses", clientAddresses.toArray(new String[clientAddresses.size()]));
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -96,7 +156,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -111,7 +172,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
   public void testInit() {
@@ -121,13 +183,16 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }

@@ -10,19 +10,17 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.team3324.robot.util.Constants;
+import frc.team6300.NorthwoodDrivers.LoggedNeo;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   // --- ARM MOTORS ---
-  private final CANSparkMax lMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_L, MotorType.kBrushless);
-  private final CANSparkMax rMotor = new CANSparkMax(Constants.Arm.ARM_MOTOR_R, MotorType.kBrushless);
-  private final CANSparkMax teleMotor = new CANSparkMax(Constants.Arm.TELESCOPE_MOTOR, MotorType.kBrushless);
+  private final LoggedNeo lMotor = new LoggedNeo(Constants.Arm.ARM_MOTOR_L, false, 30, 1/180.0 );
+  private final LoggedNeo rMotor = new LoggedNeo(Constants.Arm.ARM_MOTOR_R, true, 30, 1/180.0 );
+  private final LoggedNeo teleMotor = new LoggedNeo(Constants.Arm.TELESCOPE_MOTOR, false, 30, 1/180.0 ); //FIXME gear ratio on tele Motor
 
-  // --- ARM ENCODERS ---
-  private final RelativeEncoder lEncoder = lMotor.getEncoder();
-  private final RelativeEncoder rEncoder = rMotor.getEncoder();
-  private final RelativeEncoder teleEncoder = teleMotor.getEncoder();
+
 
   // --- ARM FEEDFORWARD CONTROLLER ---
   private double kS;
@@ -32,35 +30,31 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new Arm. */
   public Arm() {
-    rMotor.follow(lMotor, true);
+    rMotor.setSlave(lMotor.getMotorObject());
 
-    lMotor.setIdleMode(IdleMode.kBrake);
-    rMotor.setIdleMode(IdleMode.kBrake);
 
-    lMotor.burnFlash();
-    rMotor.burnFlash();
   }
 
   // --- GETTERS & SETTERS ---
 
   public void setArmSpeed(double speed) {
-    lMotor.set(-speed);
+    lMotor.setPercentOutput(speed);
   }
 
   public void setTeleSpeed(double speed) {
-    teleMotor.set(speed);
+    teleMotor.setPercentOutput(speed);
   }
 
   public double getArmPosition() {
-    return (lEncoder.getPosition() - rEncoder.getPosition()) / 2;
+    return lMotor.getPosition();
   }
 
   public double getTelePosition() {
-    return teleEncoder.getPosition();
+    return teleMotor.getPosition();
   }
 
   public double getArmVelocity() {
-    return (lEncoder.getVelocity() - rEncoder.getVelocity()) / 2;
+    return lMotor.getVelocity();
   }
 
   public double getFeedForwardSpeed() {
