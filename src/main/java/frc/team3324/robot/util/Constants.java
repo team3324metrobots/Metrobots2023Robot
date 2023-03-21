@@ -87,14 +87,14 @@ public final class Constants {
     // right side
    
     
-    public final static LoggedNeo RIGHT_FRONT_MOTOR = new LoggedNeo(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo RIGHT_MIDDLE_MOTOR = new LoggedNeo(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
    
     // left side
-    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }

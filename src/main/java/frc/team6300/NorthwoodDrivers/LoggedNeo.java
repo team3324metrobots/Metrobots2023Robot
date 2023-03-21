@@ -11,10 +11,10 @@ import edu.wpi.first.math.util.Units;
 
 
 public class LoggedNeo implements LoggedMotor{
-    private final CANSparkMax motor; 
-    private final SparkMaxPIDController controller;
-    private final RelativeEncoder encoder; 
-    private final double gearRatio;
+    protected final CANSparkMax motor; 
+    protected final SparkMaxPIDController controller;
+    protected final RelativeEncoder encoder; 
+    protected final double gearRatio;
 
     public LoggedNeo(int motorID, boolean motorInvert, int currentLimit){
       gearRatio = 1.0;
