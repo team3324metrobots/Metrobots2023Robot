@@ -18,7 +18,7 @@ public class Vision extends SubsystemBase {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(1);
     // CameraServer.startAutomaticCapture();
     // tab.add("Limelight Camera", CameraServer.getVideo());
-
+    
     SmartDashboard.putNumber("Targets", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0));
     SmartDashboard.putNumber("Horizontal Offset", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
     SmartDashboard.putNumber("Vertical Offset", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0));
