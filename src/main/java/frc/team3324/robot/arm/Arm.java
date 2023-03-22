@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedNeo;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -27,12 +28,11 @@ public class Arm extends SubsystemBase {
   private double kG;
   private double kV;
   private ArmFeedforward FeedforwardArm = new ArmFeedforward(kS, kG, kV);
+  private PIDController armPIDController = new PIDController(0.19167, 0, 0);
 
   /** Creates a new Arm. */
   public Arm() {
     rMotor.setSlave(lMotor.getMotorObject());
-
-
   }
 
   // --- GETTERS & SETTERS ---
