@@ -10,6 +10,7 @@ import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.auto.commands.ScoreCubeHigh;
 import frc.team3324.robot.drivetrain.Drivetrain;
+import frc.team3324.robot.drivetrain.commands.AutoBalance;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurn;
 import frc.team3324.robot.intake.Intake;
@@ -47,6 +48,9 @@ public class RobotContainer {
   private static Intake intake = new Intake();
   private static Vision vision = new Vision();
 
+  // --- PATHPLANNER AUTO EVENT MAP ---
+  public static HashMap<String, Command> eventMap = new HashMap<>();
+
   // private NetworkTableInstance nt_instance = NetworkTableInstance.getDefault();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,27 +58,30 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
    
-    Robot.eventMap.putIfAbsent("ScoreCubeHigh", new ScoreCubeHigh(arm, intake));
-    Robot.eventMap.putIfAbsent("IntakeCube", new IntakeCube(intake, 0));
-    Robot.eventMap.putIfAbsent("ScoreCubeMid", new ScoreCubeHigh(arm, intake));
+    eventMap.putIfAbsent("ScoreCubeHigh", new ScoreCubeHigh(arm, intake));
+    eventMap.putIfAbsent("IntakeCube", new IntakeCube(intake, 0));
+    eventMap.putIfAbsent("ScoreCubeMid", new ScoreCubeHigh(arm, intake));
+    eventMap.putIfAbsent("AutoBalance", new AutoBalance(drivetrain));
   }
 
   private void configureBindings() {
     // --- DEFAULT COMMANDS ---
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftTriggerAxis, primaryDriver::getRightTriggerAxis, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
-    primaryDriver.y().whileTrue(new GyroTurn(drivetrain, 90));
+
+    // --- VISION COMMANDS ---
     primaryDriver.b().whileTrue(new AlignWithVision(vision, drivetrain));
     primaryDriver.a().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
+
+    // --- INTAKE COMMANDS --- 
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
     secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
     secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+
+    // --- TELESCOPE COMMANDS ---
     secondaryDriver.b().whileTrue(new TelescopeArm(arm, 1.0));
     secondaryDriver.a().whileTrue(new TelescopeArm(arm, -1.0));
-    // primaryDriver.rightBumper().whileTrue(new IntakeCone(intake, 0.1));
-    // primaryDriver.leftBumper().whileTrue(new IntakeCone(intake, -0.1));
-
   }
 
   /**

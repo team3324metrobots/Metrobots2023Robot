@@ -34,6 +34,7 @@ public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
   public Arm() {
     rMotor.setSlave(lMotor.getMotorObject());
+    rMotor.getMotorObject().follow(lMotor.getMotorObject(), true);
   }
 
   public enum ArmPreset {

@@ -33,8 +33,6 @@ public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static HashMap<String, Command> eventMap = new HashMap<>();
-
   public enum RobotState {
     DISABLED, AUTONOMOUS, TELEOP, TEST
   }
