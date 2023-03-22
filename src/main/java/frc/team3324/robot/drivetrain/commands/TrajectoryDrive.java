@@ -19,7 +19,7 @@ public class TrajectoryDrive extends CommandBase {
 
 
   /** Creates a new TrajectoryDrive. */
-  public TrajectoryDrive(Drivetrain drivetrain, PathPlannerTrajectory trajectory, int waypoint) {
+  public TrajectoryDrive(Drivetrain drivetrain, PathPlannerTrajectory trajectory) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
     this.drivetrain = drivetrain;
@@ -31,17 +31,8 @@ public class TrajectoryDrive extends CommandBase {
   @Override
   public void initialize() {
 
-    pathCommand = drivetrain.FollowPath(trajectory, drivetrain);
+    pathCommand = drivetrain.followPath(trajectory, drivetrain);
     pathCommand.schedule();
-  }
-  
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-   
-    
-    // ChassisSpeeds speed = ramseteController.calculate(drivetrain.getPose(), trajectory.getStates().get(waypoint));
-    // drivetrain.curvatureDrive(speed.vxMetersPerSecond, speed.omegaRadiansPerSecond);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,8 +40,4 @@ public class TrajectoryDrive extends CommandBase {
   public void end(boolean interrupted) {
     pathCommand.cancel();
   }
-
-
-  // Returns true when the command should end.
-
 }

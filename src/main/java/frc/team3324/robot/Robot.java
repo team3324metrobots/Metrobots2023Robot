@@ -4,19 +4,12 @@
 
 package frc.team3324.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.team3324.robot.util.Constants;
@@ -24,14 +17,8 @@ import frc.team6300.MechADrivers.Alert;
 import frc.team6300.MechADrivers.VirtualSubsystem;
 import frc.team6300.MechADrivers.Alert.AlertType;
 
-import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -75,19 +62,12 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     Logger logger = Logger.getInstance();
 
-   
     logger.recordMetadata("TuningMode", Boolean.toString(Constants.tuningMode));
     logger.recordMetadata("RuntimeType", getRuntimeType().toString());
 
-    logger.addDataReceiver(new NT4Publisher());
-   
-    
-  
+    logger.addDataReceiver(new NT4Publisher()); 
 
     logger.start(); 
-   
-
-    
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our

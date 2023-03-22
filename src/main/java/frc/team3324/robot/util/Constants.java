@@ -7,12 +7,8 @@ package frc.team3324.robot.util;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.util.Units;
 import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
-import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
 /**
  * ------ CAN ID KEY ------
@@ -87,14 +83,14 @@ public final class Constants {
     // right side
    
     
-    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
-    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
-    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
    
     // left side
-    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
-    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
-    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.008, 0, 0.001, 0.38679);
+    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }

@@ -6,23 +6,27 @@ package frc.team3324.robot.arm.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.Arm.TelePreset;
 
 public class AutoTelescope extends CommandBase {
   Arm arm;
-  double position;
+  TelePreset preset;
   double speed;
+  double position;
 
   /** Creates a new TelescopeArm. */
-  public AutoTelescope(Arm arm, double position) {
+  public AutoTelescope(Arm arm, TelePreset preset) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
     this.arm = arm;
-    this.position = position;
+    this.preset = preset;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    position = preset.position;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -46,8 +46,10 @@ public class AlignWithVision extends CommandBase {
 
     double steering_adjust = Kp * tx;
 
-    double target = drivetrain.getGyroAngle() - drivetrain.getPIDYawSpeed(steering_adjust);
-    drivetrain.curvatureDrive(0, target);
+    double target = drivetrain.getGyroAngle() - drivetrain.getPIDSpeed(steering_adjust);
+    double speed = drivetrain.getPIDSpeed(target);
+
+    drivetrain.curvatureDrive(0, speed);
 
     }
   }
