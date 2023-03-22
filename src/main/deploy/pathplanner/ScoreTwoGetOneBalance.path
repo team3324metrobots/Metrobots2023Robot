@@ -124,11 +124,14 @@
       }
     }
   ],
+  "maxVelocity": null,
+  "maxAcceleration": 4.0,
+  "isReversed": null,
   "markers": [
     {
       "position": 1.0909090909090913,
       "names": [
-        "IntakeCone"
+        "IntakeCube"
       ]
     },
     {
