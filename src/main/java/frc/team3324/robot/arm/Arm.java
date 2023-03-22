@@ -4,11 +4,6 @@
 
 package frc.team3324.robot.arm;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedNeo;
 import edu.wpi.first.math.controller.ArmFeedforward;

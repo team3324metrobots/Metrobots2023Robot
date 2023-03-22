@@ -10,8 +10,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends SubsystemBase {
   public static NetworkTable limelight; 
