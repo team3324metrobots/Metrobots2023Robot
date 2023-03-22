@@ -10,19 +10,22 @@ import frc.team3324.robot.arm.commands.AutoTelescope;
 import frc.team3324.robot.intake.commands.IntakeCube;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.Arm.ArmPreset;
+import frc.team3324.robot.arm.Arm.TelePreset;
 import frc.team3324.robot.intake.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreCube extends SequentialCommandGroup {
+public class ScoreCubeHigh extends SequentialCommandGroup {
   /** Creates a new ScoreCube. */
-  public ScoreCube(Arm arm, Intake intake, ArmPreset position) {
+  public ScoreCubeHigh(Arm arm, Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoArm(arm, 2.0).alongWith(new AutoTelescope(arm, 2.0)),
-      new IntakeCube(intake, 1.0) 
+      new AutoArm(arm, ArmPreset.NONHYBRID),
+      new AutoTelescope(arm, TelePreset.STAGE2),
+      new IntakeCube(intake, -1.0),
+      new AutoTelescope(arm, TelePreset.STAGE1)
     );
   }
 }

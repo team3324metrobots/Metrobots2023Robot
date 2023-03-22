@@ -13,6 +13,7 @@ import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedNeo;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -36,12 +37,28 @@ public class Arm extends SubsystemBase {
   }
 
   public enum ArmPreset {
-    INTAKE,
-    UP,
-    HIGH,
-    MID,
-    LOW
-  } 
+    INTAKE(Units.degreesToRotations(260)),
+    UP(Units.degreesToRotations(0)),
+    NONHYBRID(Units.degreesToRotations(45)),
+    HYBRID(Units.degreesToRotations(100));
+
+    public double position;
+
+    private ArmPreset(double position) {
+      this.position = position;
+    }
+  }
+
+  public enum TelePreset {
+    STAGE1(1), // TODO: get real values for stage 1 and 2
+    STAGE2(2);
+
+    public double position;
+
+    private TelePreset(double position) {
+      this.position = position;
+    }
+  }
 
   // --- GETTERS & SETTERS ---
 
@@ -63,6 +80,10 @@ public class Arm extends SubsystemBase {
 
   public double getArmVelocity() {
     return lMotor.getVelocity();
+  }
+
+  public double getArmPIDSpeed(double setpoint) {
+    return armPIDController.calculate(getArmPosition(), setpoint);
   }
 
   public double getFeedForwardSpeed() {
