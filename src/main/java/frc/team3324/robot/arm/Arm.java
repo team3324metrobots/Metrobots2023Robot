@@ -35,6 +35,14 @@ public class Arm extends SubsystemBase {
 
   }
 
+  public enum ArmPreset {
+    INTAKE,
+    UP,
+    HIGH,
+    MID,
+    LOW
+  } 
+
   // --- GETTERS & SETTERS ---
 
   public void setArmSpeed(double speed) {
