@@ -4,6 +4,10 @@
 
 package frc.team3324.robot.auto;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.team3324.robot.drivetrain.commands.DriveStraight;
@@ -15,13 +19,15 @@ import frc.team3324.robot.intake.Intake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GoToChargingStation extends SequentialCommandGroup {
+  PathPlannerTrajectory goToStation = PathPlanner.loadPath("name", new PathConstraints(2, 2));
   /** Creates a new GoToChargingStation. */
   public GoToChargingStation(Drivetrain drivetrain, Arm arm, Intake intake, Trajectory trajectory) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand())
 
     addCommands(
-      new DriveStraight(drivetrain, 1.5).withTimeout(2.1)
+      
+      drivetrain.FollowPath(goToStation, drivetrain)
       // new AutoBalance(drivetrain)
     );
   }

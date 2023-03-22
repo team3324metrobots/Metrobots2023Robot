@@ -114,6 +114,12 @@ public class LoggedNeo implements LoggedMotor{
     public double getPosition(){
       return Units.rotationsToRadians(encoder.getPosition());
     }
+    public double getRotations(){
+      return encoder.getPosition();
+    }
+    public double getRPM(){
+      return encoder.getVelocity();
+    }
     @Override
     public double getVelocity(){
       return Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity());

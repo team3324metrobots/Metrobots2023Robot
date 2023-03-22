@@ -20,11 +20,13 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -79,7 +81,7 @@ public class Drivetrain extends SubsystemBase {
 
     lfMotor.follow(lmMotor.getMotor());
     lbMotor.follow(lmMotor.getMotor()); 
-
+    
     resetEncoders();
     navX.reset();
 
@@ -126,11 +128,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftEncoderPosition() {
-    return lmMotor.getPosition();
+    return lmMotor.getRotations();
   }
 
   public double getRightEncoderPosition() {
-    return rmMotor.getPosition();
+    return rmMotor.getRotations();
   }
 
   public AHRS getGyro() {
@@ -163,8 +165,18 @@ public class Drivetrain extends SubsystemBase {
   }
   public void acceptWheelSpeeds(double leftVelocity, double rightVelocity){
     lmMotor.setVelocity(leftVelocity, 0, 0);
-    lmMotor.setVelocity(rightVelocity, 0, 0);
+    rmMotor.setVelocity(rightVelocity, 0, 0);
   } 
+  public void acceptWheelSpeeds(DifferentialDriveWheelSpeeds wheelVelocites){
+    lmMotor.setVelocity(wheelVelocites.leftMetersPerSecond, 0, 0);
+    rmMotor.setVelocity(wheelVelocites.rightMetersPerSecond, 0, 0);
+
+  } 
+  public void runArcadeDrive(double velocity, double theta){
+    ChassisSpeeds robotChassisSpeeds = new ChassisSpeeds(velocity, 0.0, theta);
+    acceptWheelSpeeds(driveKinematics.toWheelSpeeds(robotChassisSpeeds));
+
+  }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(lmMotor.getVelocity(), rmMotor.getVelocity());
@@ -183,27 +195,20 @@ public class Drivetrain extends SubsystemBase {
     return this.driveOdometry;
   }
   public void setKnownPose(Pose2d knownPose){
-    driveOdometry.resetPosition(Rotation2d.fromDegrees(-getGyroAngle()), lbMotor.getPosition(), rmMotor.getPosition(), knownPose);
+    driveOdometry.resetPosition(Rotation2d.fromDegrees(-getGyroAngle()), lbMotor.getRotations(), rmMotor.getRotations(), knownPose);
   }
 
-  public Command  FollowPath(PathPlannerTrajectory path, Drivetrain m_drive){
+  public Command FollowPath(PathPlannerTrajectory path, Drivetrain m_drive){
         PPRamseteCommand pathFollowCommand = 
-
         new PPRamseteCommand( 
             path, 
-
             m_drive:: getPose,
-
             new RamseteController(
-              Constants.Drivetrain.ramseteD,
-              Constants.Drivetrain.ramseteZ), 
-
+            Constants.Drivetrain.ramseteD,
+            Constants.Drivetrain.ramseteZ), 
             m_drive.getKinematics(), 
-
             m_drive:: acceptWheelSpeeds, 
-
             true,
-
             m_drive
             );
         return pathFollowCommand;
