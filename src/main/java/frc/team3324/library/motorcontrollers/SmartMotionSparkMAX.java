@@ -3,34 +3,34 @@ package frc.team3324.library.motorcontrollers;
 import com.revrobotics.CANSparkMax; 
 import com.revrobotics.RelativeEncoder;
 
-public class SmartMotionSparkMAX extends CANSparkMax {
-    public SmartMotionSparkMAX(int id, MotorType type, int smartCurrentLimit, double rampRate, double kP, double kI, double kD, double kF) {
-        super(id, type);
+import frc.team6300.NorthwoodDrivers.LoggedNeo;
+
+public class SmartMotionSparkMAX extends LoggedNeo {
+    public SmartMotionSparkMAX(int id, boolean invert, int smartCurrentLimit, double gearRatio, double rampRate, double kP, double kI, double kD, double kF) {
+        super(id, invert, smartCurrentLimit, gearRatio);
         setCurrentLimit(smartCurrentLimit);
 
-        super.getPIDController().setP(kP);
-        super.getPIDController().setI(kI);
-        super.getPIDController().setD(kD);
-        super.getPIDController().setFF(kF);
-
-        super.setOpenLoopRampRate(rampRate);
-        super.setClosedLoopRampRate(rampRate);
+        super.configurePID(kP, kI, kD, kF, 0);
+        super.configureRampRate(rampRate, rampRate);
     }
 
-    public void follow(SmartMotionSparkMAX leader, boolean invert) {
-        super.follow(leader, invert);
+    public void follow(CANSparkMax leader) {
+        super.setSlave(leader);
     }
 
     public void setCurrentLimit(int value) {
-        super.setSmartCurrentLimit(value);
+        super.motor.setSmartCurrentLimit(value);
     }
 
     public double getCurrentDraw() {
-        return this.getOutputCurrent();
+        return this.getCurrentAmps();
     }
 
-    @Override
+    public CANSparkMax getMotor() {
+        return super.getMotorObject();
+    }
+
     public RelativeEncoder getEncoder() {
-        return super.getEncoder();
+        return super.encoder;
     }
 }

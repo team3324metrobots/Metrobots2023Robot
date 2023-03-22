@@ -30,9 +30,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedMotorIOInputsAutoLogged;
-import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -46,12 +46,12 @@ public class Drivetrain extends SubsystemBase {
    * lbMotor = left back motor
    */
 
-  private static LoggedNeo rfMotor = Constants.Drivetrain.RIGHT_FRONT_MOTOR;
-  private static LoggedNeo rmMotor = Constants.Drivetrain.RIGHT_MIDDLE_MOTOR;
-  private static LoggedNeo rbMotor = Constants.Drivetrain.RIGHT_BACK_MOTOR;
-  private static LoggedNeo lfMotor = Constants.Drivetrain.LEFT_FRONT_MOTOR;
-  private static LoggedNeo lmMotor = Constants.Drivetrain.LEFT_MIDDLE_MOTOR;
-  private static LoggedNeo lbMotor = Constants.Drivetrain.LEFT_BACK_MOTOR;
+  private static SmartMotionSparkMAX rfMotor = Constants.Drivetrain.RIGHT_FRONT_MOTOR;
+  private static SmartMotionSparkMAX rmMotor = Constants.Drivetrain.RIGHT_MIDDLE_MOTOR;
+  private static SmartMotionSparkMAX rbMotor = Constants.Drivetrain.RIGHT_BACK_MOTOR;
+  private static SmartMotionSparkMAX lfMotor = Constants.Drivetrain.LEFT_FRONT_MOTOR;
+  private static SmartMotionSparkMAX lmMotor = Constants.Drivetrain.LEFT_MIDDLE_MOTOR;
+  private static SmartMotionSparkMAX lbMotor = Constants.Drivetrain.LEFT_BACK_MOTOR;
 
   private static LoggedMotorIOInputsAutoLogged rmMotorLog = new LoggedMotorIOInputsAutoLogged();
   private static LoggedMotorIOInputsAutoLogged rfMotorLog = new LoggedMotorIOInputsAutoLogged();
@@ -60,10 +60,6 @@ public class Drivetrain extends SubsystemBase {
   private static LoggedMotorIOInputsAutoLogged lfMotorLog = new LoggedMotorIOInputsAutoLogged();
   private static LoggedMotorIOInputsAutoLogged lbMotorLog = new LoggedMotorIOInputsAutoLogged();
 
-  // --- ENCODERS ---
- 
-
-  
   // --- GYRO ---
   private final AHRS navX = new AHRS(SPI.Port.kMXP);
   private DifferentialDrivePoseEstimator drivePoseEstimator;
@@ -77,45 +73,14 @@ public class Drivetrain extends SubsystemBase {
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor.getMotorObject(), rmMotor.getMotorObject());
 
-  
-
-
-  private long currentTime = System.currentTimeMillis();
-  
   /** Creates a new Drivetrain. */
   public Drivetrain() {
-    // reset motors so we can work with them later
-   
-
     // set followers
-    rfMotor.setSlave(rmMotor.getMotorObject());
-    rbMotor.setSlave(rmMotor.getMotorObject());
+    rfMotor.follow(rmMotor.getMotor());
+    rbMotor.follow(rmMotor.getMotor());
 
-    lfMotor.setSlave(lmMotor.getMotorObject());
-    lbMotor.setSlave(lmMotor.getMotorObject()); 
-
-    // invert right-side motors because they're backwards :/
-    
-    // ramp rate (BE CAREFUL WHEN CHANGING)
-    rfMotor.configureRampRate(0.25);
-    rbMotor.configureRampRate(0.25);
-    rmMotor.configureRampRate(0.25);
-    lfMotor.configureRampRate(0.25);
-    lmMotor.configureRampRate(0.25);
-    lbMotor.configureRampRate(0.25);
-
-    rmMotor.configurePID(
-      0.0, //FIXME
-      0.0, //FIXME
-      0.0, //FIXME
-      0.0, //FIXME
-      0);
-    lmMotor.configurePID(
-      0.0, //FIXME
-      0.0, //FIXME
-      0.0, //FIXME
-      0.0, //FIXME
-      0);
+    lfMotor.follow(lmMotor.getMotor());
+    lbMotor.follow(lmMotor.getMotor()); 
     
     resetEncoders();
     navX.reset();
@@ -134,7 +99,6 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(), 
       nativeCovMatrix, 
       visionCovMatrix);
-
   }
 
   // --- GETTERS & SETTERS ---
@@ -170,22 +134,6 @@ public class Drivetrain extends SubsystemBase {
   public double getRightEncoderPosition() {
     return rmMotor.getRotations();
   }
-/* this will not return the robot's "local" velocity or position, because the position and local velocity are influenced, defined and derived differentially.
-  public double getPosition() {
-    return (lEncoder.getPosition() - rEncoder.getPosition()) / 2;
-  }
-
-  public double getVelocity() {
-    return (rEncoder.getVelocity() + lEncoder.getVelocity()) / 2;
-  }
-
-  public double getVelocityMeters() {
-    return (getVelocity() * Constants.Drivetrain.CONVERSION_RATIO / 60) * 0.0254;
-  }
-
-  public double getAccelerationMeters() {
-    return (getVelocityMeters() - currentVelocity) / (System.currentTimeMillis() - currentTime);
-  }*/
 
   public AHRS getGyro() {
     return this.navX;
@@ -218,7 +166,6 @@ public class Drivetrain extends SubsystemBase {
   public void acceptWheelSpeeds(double leftVelocity, double rightVelocity){
     lmMotor.setVelocity(leftVelocity, 0, 0);
     rmMotor.setVelocity(rightVelocity, 0, 0);
-
   } 
   public void acceptWheelSpeeds(DifferentialDriveWheelSpeeds wheelVelocites){
     lmMotor.setVelocity(wheelVelocites.leftMetersPerSecond, 0, 0);
@@ -266,12 +213,6 @@ public class Drivetrain extends SubsystemBase {
             );
         return pathFollowCommand;
   }
-
-  /* will be redundant after odometry is properly implemented
-  @Log
-  public double getDistance() {
-    return this.getPosition() * Constants.Drivetrain.CIRCUMFERENCE_METERS;
-  }*/
 
   public double getDistance(){
     return driveKinematics.toTwist2d(lmMotor.getPosition(), rmMotor.getPosition()).dx;
@@ -332,10 +273,8 @@ public class Drivetrain extends SubsystemBase {
     lbMotor.updateInputs(lbMotorLog);
     lfMotor.updateInputs(lfMotorLog);
 
-    currentTime = System.currentTimeMillis();
-
-    driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), lmMotor.getRotations(), rmMotor.getRotations());
-    drivePoseEstimator.update(Rotation2d.fromDegrees(getGyroAngle()), lmMotor.getRotations(), rmMotor.getRotations());
+    driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
+    drivePoseEstimator.update(Rotation2d.fromDegrees(getGyroAngle()), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
 
   }
 }
