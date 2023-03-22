@@ -35,6 +35,14 @@ public class Arm extends SubsystemBase {
     rMotor.setSlave(lMotor.getMotorObject());
   }
 
+  public enum ArmPreset {
+    INTAKE,
+    UP,
+    HIGH,
+    MID,
+    LOW
+  } 
+
   // --- GETTERS & SETTERS ---
 
   public void setArmSpeed(double speed) {

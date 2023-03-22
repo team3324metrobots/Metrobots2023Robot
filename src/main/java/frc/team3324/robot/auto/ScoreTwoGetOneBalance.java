@@ -8,26 +8,21 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.Drivetrain;
-import frc.team3324.robot.intake.Intake;
+import frc.team3324.robot.drivetrain.commands.TrajectoryDrive;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GoToChargingStation extends SequentialCommandGroup {
-  PathPlannerTrajectory goToStation = PathPlanner.loadPath("name", new PathConstraints(2, 2));
-  /** Creates a new GoToChargingStation. */
-  public GoToChargingStation(Drivetrain drivetrain, Arm arm, Intake intake, Trajectory trajectory) {
+public class ScoreTwoGetOneBalance extends SequentialCommandGroup {
+  PathPlannerTrajectory trajectory = PathPlanner.loadPath("ScoreTwoGetOneBalance", new PathConstraints(4, 3));
+  /** Creates a new ScoreTwoGetOneBalance. */
+  public ScoreTwoGetOneBalance(Drivetrain drivetrain) {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand())
-
+    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      
-      drivetrain.followPath(goToStation, drivetrain)
-      // new AutoBalance(drivetrain)
+      new TrajectoryDrive(drivetrain, trajectory)
     );
   }
 }

@@ -4,14 +4,11 @@
 
 package frc.team3324.robot.drivetrain;
 
-
-
 import org.littletonrobotics.junction.Logger;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPRamseteCommand;
-
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -33,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedMotorIOInputsAutoLogged;
-
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
@@ -85,7 +81,6 @@ public class Drivetrain extends SubsystemBase {
     resetEncoders();
     navX.reset();
 
-   
     var nativeCovMatrix = VecBuilder.fill(0.02, 0.02, 0.01);
     
     var visionCovMatrix = VecBuilder.fill(0.1, 0.1, 0.1);
@@ -194,11 +189,12 @@ public class Drivetrain extends SubsystemBase {
   public DifferentialDriveOdometry getOdometry() {
     return this.driveOdometry;
   }
+
   public void setKnownPose(Pose2d knownPose){
     driveOdometry.resetPosition(Rotation2d.fromDegrees(-getGyroAngle()), lbMotor.getRotations(), rmMotor.getRotations(), knownPose);
   }
 
-  public Command FollowPath(PathPlannerTrajectory path, Drivetrain m_drive){
+  public Command followPath(PathPlannerTrajectory path, Drivetrain m_drive){
         PPRamseteCommand pathFollowCommand = 
         new PPRamseteCommand( 
             path, 
@@ -275,6 +271,5 @@ public class Drivetrain extends SubsystemBase {
 
     driveOdometry.update(Rotation2d.fromDegrees(getGyroAngle()), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
     drivePoseEstimator.update(Rotation2d.fromDegrees(getGyroAngle()), getWheelSpeeds().leftMetersPerSecond, getWheelSpeeds().rightMetersPerSecond);
-
   }
 }

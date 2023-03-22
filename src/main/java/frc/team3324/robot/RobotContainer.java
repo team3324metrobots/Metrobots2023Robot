@@ -5,9 +5,10 @@
 package frc.team3324.robot;
 
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.Arm.ArmPreset;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.TelescopeArm;
-import frc.team3324.robot.auto.GoToChargingStation;
+import frc.team3324.robot.auto.commands.ScoreCube;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.drivetrain.commands.GyroTurn;
@@ -17,6 +18,9 @@ import frc.team3324.robot.intake.commands.IntakeCube;
 import frc.team3324.robot.vision.Vision;
 import frc.team3324.robot.vision.commands.AlignWithVision;
 import frc.team3324.robot.vision.commands.MoveArmWithVision;
+
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import frc.team3324.robot.arm.commands.TelescopeArm;
@@ -50,7 +54,9 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
    
-
+    Robot.eventMap.putIfAbsent("ScoreCubeHigh", new ScoreCube(arm, intake, ArmPreset.HIGH));
+    Robot.eventMap.putIfAbsent("IntakeCube", new IntakeCube(intake, 0));
+    Robot.eventMap.putIfAbsent("ScoreCubeMid", new ScoreCube(arm, intake, ArmPreset.MID));
   }
 
   private void configureBindings() {
