@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   // --- ARM MOTORS ---
-  private final LoggedNeo lMotor = new LoggedNeo(Constants.Arm.ARM_MOTOR_L, false, 30, 1/180.0 );
-  private final LoggedNeo rMotor = new LoggedNeo(Constants.Arm.ARM_MOTOR_R, true, 30, 1/180.0 );
-  private final LoggedNeo teleMotor = new LoggedNeo(Constants.Arm.TELESCOPE_MOTOR, false, 30, 1/180.0 ); //FIXME gear ratio on tele Motor
+  private final LoggedNeo lMotor = Constants.Arm.ARM_MOTOR_L;
+  private final LoggedNeo rMotor = Constants.Arm.ARM_MOTOR_R;
+  private final LoggedNeo teleMotor = Constants.Arm.TELESCOPE_MOTOR; //FIXME gear ratio on tele Motor
 
 
 
