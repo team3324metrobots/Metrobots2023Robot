@@ -63,12 +63,8 @@ public final class Constants {
     
     // --- RAMSETE D and Zeta Values -- 
     // find with SysID
-
     public static final double ramseteD = 0.0; 
     public static final double ramseteZ = 0.0;
-
-
-    
 
     // --- PID ---
     public static final double SmartMotion_P = 0.008;
@@ -81,8 +77,6 @@ public final class Constants {
  
     // --- DRIVETRAIN MOTORS ---
     // right side
-   
-    
     public final static LoggedNeo RIGHT_FRONT_MOTOR = new LoggedNeo(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
     public final static LoggedNeo RIGHT_MIDDLE_MOTOR = new LoggedNeo(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
     public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);

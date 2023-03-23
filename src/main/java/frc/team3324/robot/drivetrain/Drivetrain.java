@@ -182,20 +182,18 @@ public class Drivetrain extends SubsystemBase {
     driveOdometry.resetPosition(Rotation2d.fromDegrees(-getGyroAngle()), lbMotor.getRotations(), rmMotor.getRotations(), knownPose);
   }
 
-  public Command followPath(PathPlannerTrajectory path, Drivetrain m_drive){
-        PPRamseteCommand pathFollowCommand = 
-        new PPRamseteCommand( 
-            path, 
-            m_drive:: getPose,
-            new RamseteController(
-            Constants.Drivetrain.ramseteD,
-            Constants.Drivetrain.ramseteZ), 
-            m_drive.getKinematics(), 
-            m_drive:: acceptWheelSpeeds, 
-            true,
-            m_drive
-            );
-        return pathFollowCommand;
+  public Command followPath(PathPlannerTrajectory path){
+    return new PPRamseteCommand( 
+      path, 
+      this::getPose,
+      new RamseteController(
+      Constants.Drivetrain.ramseteD,
+      Constants.Drivetrain.ramseteZ), 
+      this.getKinematics(), 
+      this:: acceptWheelSpeeds, 
+      true,
+      this
+    );
   }
 
   public double getDistance(){
