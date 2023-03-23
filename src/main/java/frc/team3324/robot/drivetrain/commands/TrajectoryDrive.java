@@ -31,7 +31,7 @@ public class TrajectoryDrive extends CommandBase {
   @Override
   public void initialize() {
 
-    pathCommand = drivetrain.followPath(trajectory, drivetrain);
+    pathCommand = drivetrain.followPath(trajectory);
     pathCommand.schedule();
   }
 
