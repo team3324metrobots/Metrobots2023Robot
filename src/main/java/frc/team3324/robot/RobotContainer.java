@@ -68,8 +68,8 @@ public class RobotContainer {
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
 
     // --- VISION COMMANDS ---
-    primaryDriver.b().whileTrue(new AlignWithVision(vision, drivetrain));
-    primaryDriver.a().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
+    primaryDriver.x().whileTrue(new AlignWithVision(vision, drivetrain));
+    primaryDriver.y().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
 
     // --- INTAKE COMMANDS --- 
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
