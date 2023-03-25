@@ -62,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(0.7112);
 
   // --- PID CONTROL ---
-  private PIDController PIDControl = new PIDController(0.22974, 0, 0.01);
+  private PIDController PIDControl = new PIDController(0.22974, 0, 0.1);
   private SimpleMotorFeedforward FeedforwardDT = new SimpleMotorFeedforward(0.59019, 0.038769, 0.0049377);
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor.getMotorObject(), rmMotor.getMotorObject());
