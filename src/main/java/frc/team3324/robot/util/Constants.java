@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
 import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
+import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
 /**
  * ------ CAN ID KEY ------
@@ -35,13 +36,12 @@ public final class Constants {
   public static final boolean tuningMode = true;
   public static double loopPeriodSeconds = 0.02;
   public static class Arm {
-    public static final int ARM_MOTOR_L = 8;
-    public static final int ARM_MOTOR_R = 9;
-    public static final int TELESCOPE_MOTOR = 10;
-
     public static final double ARM_CONTROLLER_DEADZONE = 0.5;
+    public static final double ARM_GEAR_RATIO = 1 / 180.0;
 
-    
+    public static final SmartMotionSparkMAX ARM_MOTOR_L = new SmartMotionSparkMAX(8, false, 40, ARM_GEAR_RATIO, 0.25, 0.19167, 0, 0, 0.11957);
+    public static final SmartMotionSparkMAX ARM_MOTOR_R = new SmartMotionSparkMAX(9, true, 40, ARM_GEAR_RATIO, 0.25, 0.19167, 0, 0, 0.11957);
+    public static final LoggedNeo TELESCOPE_MOTOR = new LoggedNeo(10, false, 40, 0); // TODO: find gear ratio of telescope
   }
 
   public static class Intake {
@@ -63,12 +63,8 @@ public final class Constants {
     
     // --- RAMSETE D and Zeta Values -- 
     // find with SysID
-
     public static final double ramseteD = 0.0; 
     public static final double ramseteZ = 0.0;
-
-
-    
 
     // --- PID ---
     public static final double SmartMotion_P = 0.008;
@@ -81,16 +77,14 @@ public final class Constants {
  
     // --- DRIVETRAIN MOTORS ---
     // right side
-   
-    
-    public final static SmartMotionSparkMAX RIGHT_FRONT_MOTOR = new SmartMotionSparkMAX(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
-    public final static SmartMotionSparkMAX RIGHT_MIDDLE_MOTOR = new SmartMotionSparkMAX(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
-    public final static SmartMotionSparkMAX RIGHT_BACK_MOTOR = new SmartMotionSparkMAX(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static LoggedNeo RIGHT_FRONT_MOTOR = new LoggedNeo(7, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo RIGHT_MIDDLE_MOTOR = new LoggedNeo(6, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
    
     // left side
-    public final static SmartMotionSparkMAX LEFT_FRONT_MOTOR = new SmartMotionSparkMAX(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
-    public final static SmartMotionSparkMAX LEFT_MIDDLE_MOTOR = new SmartMotionSparkMAX(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
-    public final static SmartMotionSparkMAX LEFT_BACK_MOTOR = new SmartMotionSparkMAX(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS, 0.25, 0.22974, 0, 0, 0);
+    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }

@@ -26,7 +26,7 @@ public class GoToChargingStation extends SequentialCommandGroup {
 
     addCommands(
       
-      drivetrain.followPath(goToStation, drivetrain)
+      drivetrain.followPath(goToStation)
       // new AutoBalance(drivetrain)
     );
   }

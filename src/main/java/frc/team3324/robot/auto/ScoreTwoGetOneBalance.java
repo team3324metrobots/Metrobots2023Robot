@@ -16,13 +16,13 @@ import frc.team3324.robot.drivetrain.commands.TrajectoryDrive;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreTwoGetOneBalance extends SequentialCommandGroup {
-  PathPlannerTrajectory trajectory = PathPlanner.loadPath("ScoreTwoGetOneBalance", new PathConstraints(4, 3));
+  PathPlannerTrajectory trajectory = PathPlanner.loadPath("ScoreTwoGetOneBalance", new PathConstraints(3, 4));
   /** Creates a new ScoreTwoGetOneBalance. */
   public ScoreTwoGetOneBalance(Drivetrain drivetrain) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new TrajectoryDrive(drivetrain, trajectory)
+      drivetrain.followPath(trajectory)
     );
   }
 }

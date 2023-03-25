@@ -26,9 +26,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedMotorIOInputsAutoLogged;
+import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
 public class Drivetrain extends SubsystemBase {
   // --- DRIVETRAIN MOTORS ---
@@ -41,12 +41,12 @@ public class Drivetrain extends SubsystemBase {
    * lbMotor = left back motor
    */
 
-  private static SmartMotionSparkMAX rfMotor = Constants.Drivetrain.RIGHT_FRONT_MOTOR;
-  private static SmartMotionSparkMAX rmMotor = Constants.Drivetrain.RIGHT_MIDDLE_MOTOR;
-  private static SmartMotionSparkMAX rbMotor = Constants.Drivetrain.RIGHT_BACK_MOTOR;
-  private static SmartMotionSparkMAX lfMotor = Constants.Drivetrain.LEFT_FRONT_MOTOR;
-  private static SmartMotionSparkMAX lmMotor = Constants.Drivetrain.LEFT_MIDDLE_MOTOR;
-  private static SmartMotionSparkMAX lbMotor = Constants.Drivetrain.LEFT_BACK_MOTOR;
+  private static LoggedNeo rfMotor = Constants.Drivetrain.RIGHT_FRONT_MOTOR;
+  private static LoggedNeo rmMotor = Constants.Drivetrain.RIGHT_MIDDLE_MOTOR;
+  private static LoggedNeo rbMotor = Constants.Drivetrain.RIGHT_BACK_MOTOR;
+  private static LoggedNeo lfMotor = Constants.Drivetrain.LEFT_FRONT_MOTOR;
+  private static LoggedNeo lmMotor = Constants.Drivetrain.LEFT_MIDDLE_MOTOR;
+  private static LoggedNeo lbMotor = Constants.Drivetrain.LEFT_BACK_MOTOR;
 
   private static LoggedMotorIOInputsAutoLogged rmMotorLog = new LoggedMotorIOInputsAutoLogged();
   private static LoggedMotorIOInputsAutoLogged rfMotorLog = new LoggedMotorIOInputsAutoLogged();
@@ -62,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(0.7112);
 
   // --- PID CONTROL ---
-  private PIDController PIDControl = new PIDController(0.22974, 0, 0);
+  private PIDController PIDControl = new PIDController(0.22974, 0, 0.01);
   private SimpleMotorFeedforward FeedforwardDT = new SimpleMotorFeedforward(0.59019, 0.038769, 0.0049377);
  
   private static DifferentialDrive drive = new DifferentialDrive(lmMotor.getMotorObject(), rmMotor.getMotorObject());
@@ -70,11 +70,11 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     // set followers
-    rfMotor.follow(rmMotor.getMotor());
-    rbMotor.follow(rmMotor.getMotor());
+    rfMotor.setSlave(rmMotor.getMotorObject());
+    rbMotor.setSlave(rmMotor.getMotorObject());
 
-    lfMotor.follow(lmMotor.getMotor());
-    lbMotor.follow(lmMotor.getMotor()); 
+    lfMotor.setSlave(lmMotor.getMotorObject());
+    lbMotor.setSlave(lmMotor.getMotorObject()); 
     
     resetEncoders();
     navX.reset();
@@ -182,20 +182,18 @@ public class Drivetrain extends SubsystemBase {
     driveOdometry.resetPosition(Rotation2d.fromDegrees(-getGyroAngle()), lbMotor.getRotations(), rmMotor.getRotations(), knownPose);
   }
 
-  public Command followPath(PathPlannerTrajectory path, Drivetrain m_drive){
-        PPRamseteCommand pathFollowCommand = 
-        new PPRamseteCommand( 
-            path, 
-            m_drive:: getPose,
-            new RamseteController(
-            Constants.Drivetrain.ramseteD,
-            Constants.Drivetrain.ramseteZ), 
-            m_drive.getKinematics(), 
-            m_drive:: acceptWheelSpeeds, 
-            true,
-            m_drive
-            );
-        return pathFollowCommand;
+  public Command followPath(PathPlannerTrajectory path){
+    return new PPRamseteCommand( 
+      path, 
+      this::getPose,
+      new RamseteController(
+      Constants.Drivetrain.ramseteD,
+      Constants.Drivetrain.ramseteZ), 
+      this.getKinematics(), 
+      this:: acceptWheelSpeeds, 
+      true,
+      this
+    );
   }
 
   public double getDistance(){

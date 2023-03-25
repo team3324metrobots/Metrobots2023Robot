@@ -7,6 +7,7 @@ package frc.team3324.robot;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.TelescopeArm;
+import frc.team3324.robot.auto.ScoreTwoGetOneBalance;
 import frc.team3324.robot.auto.commands.ScoreCubeHigh;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.AutoBalance;
@@ -74,8 +75,8 @@ public class RobotContainer {
     // --- INTAKE COMMANDS --- 
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
     secondaryDriver.leftTrigger().whileTrue(new IntakeCone(intake, -0.2));
-    secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -0.5));
-    secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.5));
+    secondaryDriver.leftBumper().whileTrue(new IntakeCube(intake, -1.0));
+    secondaryDriver.rightBumper().whileTrue(new IntakeCube(intake, 0.45));
 
     // --- TELESCOPE COMMANDS ---
     secondaryDriver.b().whileTrue(new TelescopeArm(arm, 1.0));
@@ -89,7 +90,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
-
+    return new ScoreTwoGetOneBalance(drivetrain);
   }
 }
