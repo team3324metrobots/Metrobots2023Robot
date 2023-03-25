@@ -82,9 +82,9 @@ public final class Constants {
     public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
    
     // left side
-    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }
