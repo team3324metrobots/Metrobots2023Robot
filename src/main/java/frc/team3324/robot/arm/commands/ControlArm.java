@@ -36,7 +36,7 @@ public class ControlArm extends CommandBase {
       armSpeed = 0;
     }
 
-    arm.setArmSpeed(armSpeed * 0.5);
+    arm.setpoint += armSpeed / 0.5;
   }
 
   // Called once the command ends or is interrupted.

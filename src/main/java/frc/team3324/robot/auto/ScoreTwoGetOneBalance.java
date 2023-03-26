@@ -10,7 +10,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.team3324.robot.drivetrain.Drivetrain;
-import frc.team3324.robot.drivetrain.commands.TrajectoryDrive;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

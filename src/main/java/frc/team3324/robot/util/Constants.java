@@ -35,6 +35,7 @@ import frc.team6300.NorthwoodDrivers.LoggedNeo;
 public final class Constants {
   public static final boolean tuningMode = true;
   public static double loopPeriodSeconds = 0.02;
+
   public static class Arm {
     public static final double ARM_CONTROLLER_DEADZONE = 0.5;
     public static final double ARM_GEAR_RATIO = 1 / 180.0;
@@ -67,10 +68,6 @@ public final class Constants {
     public static final double ramseteZ = 0.0;
 
     // --- PID ---
-    public static final double SmartMotion_P = 0.008;
-    public static final double SmartMotion_I = 0;
-    public static final double SmartMotion_D = 0.001;
-    public static final double SmartMotion_F = 0.38769;
     public static final double DriveStraight_P = 0.28;
     public static final double DriveStraight_I = 0.03;
     public static final double DriveStraight_D = 0.0;
@@ -82,9 +79,10 @@ public final class Constants {
     public final static LoggedNeo RIGHT_BACK_MOTOR = new LoggedNeo(5, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
    
     // left side
-    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
-    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, true, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_FRONT_MOTOR = new LoggedNeo(4, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_MIDDLE_MOTOR = new LoggedNeo(3, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+    public final static LoggedNeo LEFT_BACK_MOTOR = new LoggedNeo(2, false, 40, DT_GEAR_RATIO*CIRCUMFERENCE_METERS);
+
     public static final double CONTROLLER_DEADZONE = 0.12;
   }
 }

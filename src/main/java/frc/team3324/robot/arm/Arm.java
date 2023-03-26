@@ -7,9 +7,13 @@ package frc.team3324.robot.arm;
 import frc.team3324.library.motorcontrollers.SmartMotionSparkMAX;
 import frc.team3324.robot.util.Constants;
 import frc.team6300.NorthwoodDrivers.LoggedNeo;
+
+import com.revrobotics.SparkMaxPIDController.AccelStrategy;
+
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -18,8 +22,6 @@ public class Arm extends SubsystemBase {
   private final SmartMotionSparkMAX rMotor = Constants.Arm.ARM_MOTOR_R;
   private final LoggedNeo teleMotor = Constants.Arm.TELESCOPE_MOTOR;
 
-
-
   // --- ARM FEEDFORWARD CONTROLLER ---
   private double kS;
   private double kG;
@@ -27,10 +29,14 @@ public class Arm extends SubsystemBase {
   private ArmFeedforward FeedforwardArm = new ArmFeedforward(kS, kG, kV);
   private PIDController armPIDController = new PIDController(0.19167, 0, 0);
 
+  public double setpoint = 0;
+
   /** Creates a new Arm. */
   public Arm() {
     rMotor.setSlave(lMotor.getMotorObject());
     rMotor.getMotorObject().follow(lMotor.getMotorObject(), true);
+
+    lMotor.configureSmartMotion(1000, 1000, 0.1, 0, AccelStrategy.kTrapezoidal);
   }
 
   public enum ArmPreset {
@@ -87,8 +93,11 @@ public class Arm extends SubsystemBase {
     return FeedforwardArm.calculate(getArmPosition(), getArmVelocity());
   }
 
-  @Override
+  @Override 
   public void periodic() {
     // This method will be called once per scheduler run
+    lMotor.setSmartMotionPosition(setpoint, 0);
+    SmartDashboard.putNumber("Arm Setpoint", setpoint);
+    SmartDashboard.putNumber("Arm Setpoint Degrees", Units.rotationsToDegrees(setpoint));
   }
 }

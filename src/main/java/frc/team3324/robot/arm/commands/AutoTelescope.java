@@ -32,10 +32,10 @@ public class AutoTelescope extends CommandBase {
   @Override
   public void execute() {
     // this should be good enough for the telescope, if its not we use PID
-    if (arm.getTelePosition() > position) {
+    if (arm.getTelePosition() > position + 1) {
       speed = -1.0;
     }
-    else if (arm.getArmPosition() < position) {
+    else if (arm.getArmPosition() < position - 1) {
       speed = 1.0;
     }
     else {
