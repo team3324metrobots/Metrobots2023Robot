@@ -28,7 +28,6 @@ public class LoggedNeo implements LoggedMotor{
       encoder.setPositionConversionFactor(gearRatio/60);
       encoder.setMeasurementPeriod(8);
       motor.burnFlash();
-
   } 
   public LoggedNeo(int motorID, boolean motorInvert, int currentLimit, double ratio){
     this.gearRatio = ratio;
@@ -68,8 +67,8 @@ public class LoggedNeo implements LoggedMotor{
     public void stop() {
       motor.set(0.0);
     }
-    public void setSmartMotionPosition(double positionRad, int slotID){
-      controller.setReference(positionRad, ControlType.kSmartMotion, slotID);
+    public void setSmartMotionPosition(double positionRad){
+      controller.setReference(positionRad, ControlType.kSmartMotion);
     }
     public void setSmartVelocity(double velocityRadPerSec, int slotID){
       controller.setReference(velocityRadPerSec, ControlType.kSmartVelocity, slotID);
@@ -95,7 +94,6 @@ public class LoggedNeo implements LoggedMotor{
       controller.setSmartMotionAllowedClosedLoopError(allowableError, slotID);
       controller.setSmartMotionMaxAccel(maxAcceleration, slotID);
       controller.setSmartMotionMaxVelocity(maxVelocity, slotID);
-    
     }
 
     public void configureRampRate(double closedRampRate, double openRampRate){
@@ -124,8 +122,4 @@ public class LoggedNeo implements LoggedMotor{
     public double getVelocity(){
       return Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity());
     }
-    
-    
-
-
 }

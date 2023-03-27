@@ -34,7 +34,7 @@ public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
   public Arm() {
     rMotor.setSlave(lMotor.getMotorObject());
-    rMotor.getMotorObject().follow(lMotor.getMotorObject(), true);
+    rMotor.getMotor().follow(lMotor.getMotorObject(), true);
 
     lMotor.configureSmartMotion(1000, 1000, 0.1, 0, AccelStrategy.kTrapezoidal);
   }
@@ -96,8 +96,12 @@ public class Arm extends SubsystemBase {
   @Override 
   public void periodic() {
     // This method will be called once per scheduler run
-    lMotor.setSmartMotionPosition(setpoint, 0);
+    lMotor.setSmartMotionPosition(Units.degreesToRadians(setpoint));
+    
     SmartDashboard.putNumber("Arm Setpoint", setpoint);
     SmartDashboard.putNumber("Arm Setpoint Degrees", Units.rotationsToDegrees(setpoint));
+
+    SmartDashboard.putNumber("Arm Motor L Output (Amps)", lMotor.getCurrentDraw());
+    SmartDashboard.putNumber("Arm Motor R Output (Amps)", rMotor.getCurrentDraw()); 
   }
 }

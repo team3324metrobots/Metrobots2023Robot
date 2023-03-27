@@ -2,7 +2,6 @@ package frc.team3324.library.motorcontrollers;
 
 import com.revrobotics.CANSparkMax; 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.ControlType;
 
 import frc.team6300.NorthwoodDrivers.LoggedNeo;
 
@@ -33,9 +32,5 @@ public class SmartMotionSparkMAX extends LoggedNeo {
 
     public RelativeEncoder getEncoder() {
         return super.encoder;
-    }
-
-    public void setSmartMotionPosition(double reference) {
-        super.motor.getPIDController().setReference(reference, ControlType.kSmartMotion);
     }
 }

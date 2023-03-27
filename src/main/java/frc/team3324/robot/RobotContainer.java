@@ -5,12 +5,15 @@
 package frc.team3324.robot;
 
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.Arm.ArmPreset;
+import frc.team3324.robot.arm.commands.AutoArm;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.TelescopeArm;
 import frc.team3324.robot.auto.ScoreTwoGetOneBalance;
 import frc.team3324.robot.auto.commands.ScoreCubeHigh;
 import frc.team3324.robot.drivetrain.Drivetrain;
 import frc.team3324.robot.drivetrain.commands.AutoBalance;
+import frc.team3324.robot.drivetrain.commands.DebugDrivetrain;
 import frc.team3324.robot.drivetrain.commands.Drive;
 import frc.team3324.robot.intake.Intake;
 import frc.team3324.robot.intake.commands.IntakeCone;
@@ -68,6 +71,12 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new Drive(drivetrain, primaryDriver::getLeftTriggerAxis, primaryDriver::getRightTriggerAxis, primaryDriver::getLeftX));
     arm.setDefaultCommand(new ControlArm(arm, secondaryDriver::getLeftY));
 
+    // --- ARM PRESETS ---
+    secondaryDriver.povDown().whileTrue(new AutoArm(arm, ArmPreset.HYBRID));
+    secondaryDriver.povLeft().whileTrue(new AutoArm(arm, ArmPreset.NONHYBRID));
+    secondaryDriver.povUp().whileTrue(new AutoArm(arm, ArmPreset.UP));
+    secondaryDriver.povRight().whileTrue(new AutoArm(arm, ArmPreset.INTAKE));
+
     // --- VISION COMMANDS ---
     primaryDriver.b().whileTrue(new AlignWithVision(vision, drivetrain));
     primaryDriver.a().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
@@ -81,6 +90,8 @@ public class RobotContainer {
     // --- TELESCOPE COMMANDS ---
     secondaryDriver.b().whileTrue(new TelescopeArm(arm, 1.0));
     secondaryDriver.a().whileTrue(new TelescopeArm(arm, -1.0));
+
+    primaryDriver.y().whileTrue(new DebugDrivetrain(drivetrain));
   }
 
   /**

@@ -37,7 +37,7 @@ public final class Constants {
   public static double loopPeriodSeconds = 0.02;
 
   public static class Arm {
-    public static final double ARM_CONTROLLER_DEADZONE = 0.5;
+    public static final double ARM_CONTROLLER_DEADZONE = 0.12;
     public static final double ARM_GEAR_RATIO = 1 / 180.0;
 
     public static final SmartMotionSparkMAX ARM_MOTOR_L = new SmartMotionSparkMAX(8, false, 40, ARM_GEAR_RATIO, 0.25, 0.19167, 0, 0, 0.11957);

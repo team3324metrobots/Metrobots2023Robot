@@ -75,6 +75,8 @@ public class Drivetrain extends SubsystemBase {
 
     lfMotor.setSlave(lmMotor.getMotorObject());
     lbMotor.setSlave(lmMotor.getMotorObject()); 
+
+    setMaxOutput(1.0);
     
     resetEncoders();
     navX.reset();
@@ -190,7 +192,7 @@ public class Drivetrain extends SubsystemBase {
       Constants.Drivetrain.ramseteD,
       Constants.Drivetrain.ramseteZ), 
       this.getKinematics(), 
-      this:: acceptWheelSpeeds, 
+      this::acceptWheelSpeeds, 
       true,
       this
     );
@@ -225,12 +227,27 @@ public class Drivetrain extends SubsystemBase {
     curvatureDrive(xSpeed, ySpeed, true);
   }
 
+  public void debugDrivetrain() {
+    lmMotor.getMotorObject().set(0.2);
+    rmMotor.getMotorObject().set(0.2);
+  }
+
+  public void stopDebug() {
+    lmMotor.getMotorObject().set(0.0);
+    rmMotor.getMotorObject().set(0.0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left Wheel Speed", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right Wheel Speed", getWheelSpeeds().rightMetersPerSecond);
-  
+
+    SmartDashboard.putNumber("Left Middle Motor Amps", lmMotor.getCurrentAmps());
+    SmartDashboard.putNumber("Right Front Motor Amps", rfMotor.getCurrentAmps());
+    SmartDashboard.putNumber("Right Middle Motor Amps", rmMotor.getCurrentAmps());
+    SmartDashboard.putNumber("Right Back Motor Amps", rbMotor.getCurrentAmps());
+
     SmartDashboard.putNumber("Robot Pitch", getGyroPitch());
     SmartDashboard.putNumber("Robot Yaw", getGyroYaw());
     SmartDashboard.putNumber("Robot Angle", getGyroAngle360());
