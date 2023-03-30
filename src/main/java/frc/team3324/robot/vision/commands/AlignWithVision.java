@@ -46,17 +46,28 @@ public class AlignWithVision extends CommandBase {
 
     double steering_adjust = Kp * tx;
 
-    double target = drivetrain.getGyroAngle() - steering_adjust;
+    double target = drivetrain.getGyroHeading() - steering_adjust;
     double speed = drivetrain.getPIDSpeed(target);
 
     drivetrain.curvatureDrive(0, -speed);
+
+    } else {
+
+      drivetrain.setMaxOutput(1);
+      drivetrain.curvatureDrive(0, 0);
 
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    drivetrain.setOutputVolts(0, 0);
+    drivetrain.setMaxOutput(1);
+    drivetrain.curvatureDrive(0, 0);
+    
+  }
 
   // Returns true when the command should end.
   @Override

@@ -126,6 +126,10 @@ public class Drivetrain extends SubsystemBase {
     return navX.getAngle();
   }
 
+  public double getGyroHeading() {
+    return navX.getCompassHeading();
+  }
+
   public double getGyroAngle360() {
     // this function is for viewing the gyro's current angle in a human-viewable way
     if (navX.getAngle() > 360) {
