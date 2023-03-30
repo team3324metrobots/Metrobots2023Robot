@@ -70,7 +70,7 @@ public class RobotContainer {
 
     // --- VISION COMMANDS ---
     primaryDriver.x().whileTrue(new AlignWithVision(vision, drivetrain));
-    primaryDriver.y().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
+    // primaryDriver.y().whileTrue(new MoveArmWithVision(vision, drivetrain, arm));
 
     // --- INTAKE COMMANDS --- 
     secondaryDriver.rightTrigger().whileTrue(new IntakeCone(intake, 0.2));
